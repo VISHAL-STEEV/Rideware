@@ -23,6 +23,7 @@ import { SearchpipePipe } from "../../../../../../pipe/searchpipe.pipe";
 import { ToastrService } from 'ngx-toastr';
 
 
+
 @Component({
     selector: 'inventory-list',
     templateUrl: './inventory.component.html',
@@ -63,7 +64,7 @@ import { ToastrService } from 'ngx-toastr';
 })
 export class InventoryListComponent implements OnInit
 {
-    products:any[];
+    products:any[]=[];
     update_id:any;
     pagination: InventoryPagination;
     Search_data:string;
@@ -73,6 +74,9 @@ export class InventoryListComponent implements OnInit
     SHortNaMe: string;
     booleanValue = false;
     ClickEventSub:Subscription
+    pageSize = 10; // Set your desired page size
+    pageSizeOptions = [5, 10, 25, 100]; // Define your page size options
+
 
     
     constructor(
@@ -189,6 +193,15 @@ export class InventoryListComponent implements OnInit
                 }
         });
       }
+
+
+
+
+      
+// Method to handle page change event
+pageChanged(event: any) {
+    // You can fetch data for the new page here based on event.pageIndex and event.pageSize
+  }
 
 
 }

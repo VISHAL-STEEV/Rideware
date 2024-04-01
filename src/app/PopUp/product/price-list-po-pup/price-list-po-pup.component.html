@@ -1,0 +1,56 @@
+
+<style>
+    .form-group{
+        display: flex;
+        flex-direction: column;
+    }
+    .example-full-width{
+        width: 300px;
+    }
+    .heading{
+    font-size: 1.4em; 
+    font-weight: bold;
+    color: #333;
+    text-align: center; 
+    margin-bottom: 20px; 
+    text-transform: uppercase; 
+    letter-spacing: 2px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3); 
+    }
+    .toggle_continer{
+        display: flex;
+        gap: 15px;
+        flex-direction: column;
+        justify-content: center;
+        margin-bottom: 15px;
+    }
+</style>
+<div class="container">
+    <h2 class="heading">Pricelist details</h2>
+    <div class="body">
+        <div class="form-container">
+            <form [formGroup]="productForm" class="product-form">
+                <div class="form-group">
+                    <mat-form-field class="example-full-width">
+                        <mat-label>Name</mat-label>
+                        <input matInput type="text"  formControlName="name" class="form-control">
+                    </mat-form-field>
+
+                    <div class="toggle_continer">
+                        <div>
+                            <mat-slide-toggle color="primary"  formControlName="Sales">is Default Sales PriceList ?</mat-slide-toggle>
+                        </div>
+                        <div>
+                            <mat-slide-toggle  color="primary" formControlName="Purchase">is Default Purchase PriceList ?</mat-slide-toggle>
+                        </div>
+                    </div>
+                </div>
+                <!-- Close button -->
+                <button  mat-raised-button color="primary" type="button" (click)="submitProductForm()" mat-dialog-close>Save</button>
+               
+            </form>
+        </div>
+    </div>
+</div>
+
+

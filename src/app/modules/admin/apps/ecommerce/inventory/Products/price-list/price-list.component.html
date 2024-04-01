@@ -78,15 +78,19 @@
         <!-- Actions -->
         <div class="flex shrink-0 items-center mt-6 sm:mt-0 sm:ml-4">
         
-            <div class="search-container">
-                <input type="text" class="search-input" placeholder="Search products" [(ngModel)]="Search_CateGory_data">
-                <div class="search-icon-container">
-                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="search-icon">
-                    <path d="M0 0h24v24H0z" fill="none"/>
-                    <path d="M15.5 14h-.79l-.28-.27a6.5 6.5 0 0 0 1.48-5.34c-.47-2.78-2.79-5-5.59-5.34a6.505 6.505 0 0 0-7.27 7.27c.34 2.8 2.56 5.12 5.34 5.59a6.5 6.5 0 0 0 5.34-1.48l.27.28v.79l4.25 4.25c.41.41 1.08.41 1.49 0 .41-.41.41-1.08 0-1.49L15.5 14zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/>
-                  </svg>
-                </div>
-              </div>
+          <mat-form-field
+          class="fuse-mat-dense fuse-mat-rounded min-w-64"
+          [subscriptSizing]="'dynamic'">
+          <mat-icon
+              class="icon-size-5"
+              matPrefix
+              [svgIcon]="'heroicons_solid:magnifying-glass'"></mat-icon>
+          <input
+              matInput
+              [(ngModel)]="Search_CateGory_data"
+              [autocomplete]="'off'"
+              [placeholder]="'Search products'">
+      </mat-form-field>
 
 
 
@@ -133,7 +137,7 @@
                 <ng-container *ngIf="!isToggle_cateGory">
                   <mat-icon class="align-middle mr-1" svgIcon="heroicons_outline:bars-arrow-down" style="font-size: 1.5em"></mat-icon>
                 </ng-container>
-                <button class="align-middle" (click)="toggle_cat()" style="font-size: 1.1em; font-weight: bold;">description</button>
+                <button class="align-middle" (click)="toggle_cat()" style="font-size: 1.1em; font-weight: bold;">Default Sales PriceList</button>
               </th>  
               <th class="px-6 py-3 bg-gray-50 text-sm leading-5 font-semibold text-gray-500 uppercase tracking-wider transition-all hover:bg-gray-100 border-b border-gray-200 text-left">
                 <ng-container *ngIf="isToggle_cateGory">
@@ -143,7 +147,7 @@
                 <ng-container *ngIf="!isToggle_cateGory">
                   <mat-icon class="align-middle mr-1" svgIcon="heroicons_outline:bars-arrow-down" style="font-size: 1.5em"></mat-icon>
                 </ng-container>
-                <button class="align-middle" (click)="toggle_cat()" style="font-size: 1.1em; font-weight: bold;">is stock item</button>
+                <button class="align-middle" (click)="toggle_cat()" style="font-size: 1.1em; font-weight: bold;">Default Purchase PriceList</button>
               </th>  
               <th class="px-6 py-3 bg-gray-50 text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider transition-all hover:bg-gray-100 border-b border-gray-200 text-left">
 
@@ -151,12 +155,12 @@
             </tr>
           </thead>
           <tbody class="bg-white divide-y divide-gray-200">
-            <tr class="transition-all hover:bg-gray-100" *ngFor="let data of products_groups_all_data">       
+            <tr class="transition-all hover:bg-gray-100" *ngFor="let data of products_groups_all_data  | searchpipe:Search_CateGory_data">       
               <!-- *ngFor="let unit of display_all_units |  searchpipe:Search_data" -->
               <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200 text-left">{{data.name}}</td>
-              <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200 text-left">{{data.description}}</td>
-              <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200 text-left">{{data.isStockGroup === true ? 'Yes' : 'No'}}</td>
-              
+              <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200 text-left">{{data.isDefaultSales === true ? 'Yes' : 'No'}}</td>
+              <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200 text-left">{{data.isDefaultPurchase === true ? 'Yes' : 'No'}}</td>
+
               <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200 text-left">
                 <button (click)="update_Category(data)">
                   <mat-icon svgIcon="heroicons_mini:pencil-square"></mat-icon>

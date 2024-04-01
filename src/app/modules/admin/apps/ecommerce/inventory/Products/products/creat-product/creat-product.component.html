@@ -1,0 +1,282 @@
+<style>
+  body {
+    position: relative;
+    height: 1vh;
+  }
+
+  .body_class {
+    width: 90%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    padding: 25px;
+    border-radius: 30px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+
+  .container-heading {
+    font-size: 1.4em;
+    font-weight: bold;
+    color: #333;
+    text-align: center;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+  }
+
+  .container {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .row-container {
+    margin: 20px 0;
+  }
+
+  .column-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center; 
+    padding: 0 10px;
+    margin-bottom: 20px;
+  }
+
+  .form-container {
+    margin-bottom: 20px;
+  }
+
+  .toggle-container {
+    display: flex;
+    flex-wrap: wrap;
+    margin-bottom: 20px;
+    gap: 20px;
+  }
+
+  .toggle-container_1,
+  .toggle-container_2 {
+    flex-basis: 50%; /* Adjust the width of toggle containers */
+  }
+
+  .footer {
+    display: flex;
+    justify-content: end;
+    margin-top: 20px;
+    gap: 10px;
+  }
+
+  .secondary {
+    margin-right: 10px;
+  }
+
+  .primary {
+    margin-left: 10px;
+  }
+
+  @media screen and (max-width: 768px) {
+    .column-container {
+      flex: 100%;
+      padding: 0 20px;
+    }
+  }
+  .General_in_cls{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+.mat-input-element_style {
+    width: 15rem; /* Adjust the width of the input field */
+  }
+
+  .secondFormGroup_calss{
+    display: flex;
+    justify-content: start;
+    gap: 7%;
+    flex-direction: column;
+    
+  }
+  .ThirdFormGroup_class{
+    display: flex;
+    justify-content: start;
+    flex-direction: row;
+    gap: 10%;
+  }
+  .secondCtrl_class{
+    display: flex;
+    justify-content: start;
+    gap: 7%;
+    flex-direction: row;
+  }
+
+.sales_purchase_input_adjust{
+  width: 25%;
+}
+
+
+
+
+</style>
+
+<body  >
+  <div class="body_class">
+    <div class="container-heading">Product</div>
+    <div class="container">
+      <div class="row-container">
+        <div class="column-container">
+          <div class="form-container">
+            <form class="example-form" [formGroup]="firstFormGroup">
+              <mat-form-field  class="mat-input-element_style" >
+                <mat-label>Name</mat-label>
+                <input matInput  formControlName="firstCtrl"  >
+              </mat-form-field>
+            
+         
+          <div class="toggle-container" >
+            <div class="toggle-container_1">
+              <p>Can be Sale?</p>
+              <mat-slide-toggle formControlName="canBeSale"></mat-slide-toggle>
+            </div>
+            <div class="toggle-container_2">
+              <p>Can be Purchase?</p>
+              <mat-slide-toggle formControlName="canBePurchase"></mat-slide-toggle>
+            </div>
+          </div>
+          </form>
+        </div>
+        </div>
+
+        <mat-divider></mat-divider>
+        <br>
+
+        <div class="column-container">
+          <mat-stepper [linear]="isLinear" #stepper>
+            <mat-step [stepControl]="firstFormGroup_General">
+              <form [formGroup]="firstFormGroup_General" class="General_in_cls">
+                <ng-template matStepLabel>General Information</ng-template>
+                <mat-form-field>
+                  <mat-label>Description</mat-label>
+                  <input matInput  formControlName="Description" required>
+                </mat-form-field>
+                <mat-form-field>
+                  <mat-label>Base Referance (U.O.M)</mat-label>
+                  <mat-select formControlName="Referance">
+                    <mat-option value="{{data.id}}"   *ngFor="let data of Drop_down_units">{{data.name}}</mat-option>
+                  </mat-select>
+                </mat-form-field>
+                <mat-form-field>
+                  <mat-label>Barcode</mat-label>
+                  <input matInput formControlName="Barcode" required>
+                </mat-form-field>
+                <mat-form-field>
+                  <mat-label>Product Group</mat-label>
+                  <mat-select formControlName="Product_Group"  >
+                    <mat-option *ngFor="let data of products_groups_all_data"   value="{{data.id}}">{{data.description}}</mat-option>
+                   
+                  </mat-select>
+                </mat-form-field>
+                <mat-form-field>
+                  <mat-label>Internal Referance</mat-label>
+                  <input matInput  formControlName="Internal_Referance" required>
+                </mat-form-field>
+                <mat-form-field>
+                  <mat-label>Product Category</mat-label>
+                  <mat-select formControlName="product_Category">
+                    <mat-option  *ngFor="let data of products_Categories_all_data" value="{{data.id}}">{{data.name}}</mat-option>
+                   
+                  </mat-select>
+                </mat-form-field> 
+               
+              </form>
+            </mat-step>
+
+
+
+            <mat-step [stepControl]="secondFormGroup" label="Fill out your address">
+              <form [formGroup]="secondFormGroup" class="secondFormGroup_calss">
+                <ng-template matStepLabel>Inventory</ng-template>
+                <div style="display: flex; gap: 10px;">
+                  <mat-form-field>
+                    <mat-label>Tax Percentage</mat-label>
+                    <input matInput formControlName="Tax_Percentage" type="number" step="0.1" min="0" required>
+                    <!-- <mat-error *ngIf="secondFormGroup.get('Cost_Price').hasError('required')">Tax Percentage is required</mat-error> -->
+                  </mat-form-field>
+  
+                  <mat-form-field>
+                    <mat-label>Max Quantity</mat-label>
+                    <input matInput formControlName="Max_Quantity" type="number"  step="0.1" min="0"  required>
+                  </mat-form-field> 
+  
+                  <mat-form-field style="width: 25%;">
+                    <mat-label> Minimum Quantity</mat-label>
+                    <input matInput formControlName="Min_Quantity" type="number"  step="0.1" min="0"  required>
+                  </mat-form-field> 
+                </div>
+                
+                <div >
+                  <mat-label>Product Tracking ( LotStatus )</mat-label> 
+                  <br>
+                  <mat-chip-listbox aria-label="Fish selection"  formControlName="Product_Tracking">
+                    <mat-chip-option value="1">By Unique Serial Number</mat-chip-option>
+                    <mat-chip-option color="warn" value="2">By Lots</mat-chip-option>
+                    <mat-chip-option color="accent" value="3">No Tracking</mat-chip-option>
+                  </mat-chip-listbox>
+                </div>
+              </form>
+            </mat-step>
+            <mat-step [stepControl]="ThirdFormGroup" label="Fill out your address">
+              <form [formGroup]="ThirdFormGroup" class="ThirdFormGroup_class">
+                <ng-template matStepLabel>Sales</ng-template>
+                <mat-form-field class="sales_purchase_input_adjust">
+                  <mat-label>Sales Unit of Measure</mat-label>
+                  <input matInput formControlName="Sales_Unit_Measure" type="number"  step="0.1" min="0"  required>
+                </mat-form-field>
+                <mat-form-field >
+                  <mat-label>Sales Unit Price</mat-label>
+                  <input matInput formControlName="Sales_Unit_Price" type="number"  step="0.1" min="0"  required>
+                </mat-form-field>
+
+                <mat-chip-listbox aria-label="Fish selection" style="margin-top: 25px;" formControlName ="isAvailableInPOS_value">
+                   <mat-chip-option  value="true"  >Is Available in POS?</mat-chip-option>
+                </mat-chip-listbox>
+                <!-- <div>
+                  <button mat-button matStepperPrevious>Back</button>
+                  <button mat-button matStepperNext>Next</button>
+                </div> -->
+              </form>
+            </mat-step>
+            <mat-step [stepControl]="ForthFormGroup" label="Fill out your address">
+              <form [formGroup]="ForthFormGroup" class="secondCtrl_class">
+                <ng-template matStepLabel>Purchase</ng-template>
+                <mat-form-field class="sales_purchase_input_adjust">
+                  <mat-label>Purchase Unit of Measure</mat-label>
+                  <input matInput formControlName="Purchase_Measure" type="number"  step="0.1" min="0"  required>
+                </mat-form-field>
+            
+
+                <mat-form-field class="sales_purchase_input_adjust">
+                  <mat-label>Purchase Unit Price</mat-label>
+                  <input matInput formControlName="Purchase_Price" type="number"  step="0.1" min="0"  required>
+                </mat-form-field>
+                <!-- <div>
+                  <button mat-button matStepperPrevious>Back</button>
+                  <button mat-button matStepperNext>Next</button>
+                </div> -->
+              </form>
+            </mat-step>
+          </mat-stepper>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer">
+      <button mat-raised-button color="primary">Go Back</button>
+      <button mat-raised-button color="primary" (click)="increment()">Submit</button>
+    </div>
+  </div>
+</body>
+
+
+

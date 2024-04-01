@@ -80,7 +80,8 @@ export class AuthService
             "clientId": "ERPWebApp",
             "password": credentials.password
           };
-      
+         
+          console.log(credentials.email,credentials.password)
 
 
         return this._httpClient.post('http://3.28.120.132:5208/User/Login', requestBody).pipe(
@@ -216,6 +217,28 @@ export class AuthService
         // If the access token exists, and it didn't expire, sign in using it
         return this.signInUsingToken();
     }
+
+
+
+  get_New_Token(token:any){
+
+    return this._httpClient.post<any>('http://3.28.120.132:5208/User/ValidateRefreshToken', token).pipe(
+        map((res: any) => {
+          const token = res.data.token;
+          const refreshToken = res.data.refreshToken;
+          localStorage.setItem('accessToken', token);
+          localStorage.setItem('refreshToken',refreshToken)
+          console.log(res)
+          return res;
+        })
+      );
+
+
+
+  }
+
+
+
 }
 
 

@@ -92,7 +92,7 @@ export class FuseVerticalNavigationComponent implements OnChanges, OnInit, After
             this.close();
         };
     }
-   
+    
     // -----------------------------------------------------------------------------------------------------
     // @ Accessors
     // -----------------------------------------------------------------------------------------------------
@@ -311,6 +311,48 @@ export class FuseVerticalNavigationComponent implements OnChanges, OnInit, After
  
         this.navigation =[
             {
+                type: 'group',
+                title: 'home',
+            },
+            {
+                title: 'Dashboard',
+                 type :'basic',
+                 icon:'mat_solid:space_dashboard',
+                 
+              },
+            {
+                type: 'group',
+                title: 'employee',
+            },
+            {
+                title: 'Designations',
+                 type :'basic',
+                 icon:'feather:award',
+                 link:'designations'
+              }, {
+                title: 'Departments',
+                 type :'basic',
+                 icon:'feather:grid',
+                 link:'departments'
+              }, {
+                title: 'Employees',
+                 type :'basic',
+                 icon:'feather:user',
+                 link:'Employees'
+              },
+            {
+                type: 'group',
+                title: 'customer',
+            },
+            {
+                title: 'customer',
+                 type :'basic',
+                 icon:'feather:users',
+                 link:'Customer'
+              },{
+            type: 'group',
+            title: 'modules',
+        }, {
               type: 'collapsable',
               title: 'Inventory',
               icon :'mat_outline:inventory_2',
@@ -373,7 +415,66 @@ export class FuseVerticalNavigationComponent implements OnChanges, OnInit, After
                 }
 
               ]
-            } ,  
+            } , 
+            {
+                type: 'collapsable',
+                title: 'purchase',
+                icon :'heroicons_outline:shopping-bag',
+                children: [{
+                    title: 'Requisition History',
+                    type :'basic',
+                    icon:'history_toggle_off',
+                    link:'/purchase/RequisitionHistory'
+                    
+                },{
+                    title: 'New Purchase Requisition',
+                    type :'basic',
+                    icon:'add_shopping_cart',
+                    link:'/purchase/NewPurchaseRequisition'
+                    
+                },{
+                    title: 'Order History',
+                    type :'basic',
+                    icon:'history',
+                    link:'/purchase/OrderHistory'
+                    
+                },{
+                    title: 'New Order',
+                    type :'basic',
+                    icon:'shopping_cart',
+                    link:'/purchase/NewOrder'
+                    
+                },
+            ]},  {
+                type: 'collapsable',
+                title: 'Sales',
+                icon :'feather:headphones',
+                children: [{
+                    title: 'Quotation History',
+                    type :'basic',
+                    icon:'history_toggle_off',
+                    link:'/purchase/RequisitionHistory'
+                    
+                },{
+                    title: 'New Sales Quotation',
+                    type :'basic',
+                    icon:'add_shopping_cart',
+                    link:'/purchase/NewPurchaseRequisition'
+                    
+                },{
+                    title: 'Order History',
+                    type :'basic',
+                    icon:'history',
+                    link:'/purchase/OrderHistory'
+                    
+                },{
+                    title: 'New Order',
+                    type :'basic',
+                    icon:'shopping_cart',
+                    link:'/purchase/NewOrder'
+                    
+                },
+            ]}
           ]
           
             

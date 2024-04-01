@@ -29,6 +29,11 @@
                     [autocomplete]="'off'"
                     [placeholder]="'Search products'">
             </mat-form-field>
+
+
+     
+
+
           
             <button
                 class="ml-4"
@@ -55,6 +60,11 @@
           top: 0;
           background-color: #ffffff; /* Adjust the background color as needed */
           z-index: 1; /* Ensure the header stays on top of other elements */
+        }
+
+        .paginator_class{
+          display: flex;
+          justify-content: center;
         }
       </style>
       
@@ -103,7 +113,13 @@
       
 
      
-      
+      <div class="paginator_class">
+        <mat-paginator [pageSize]="pageSize"
+        [pageSizeOptions]="pageSizeOptions"
+        [length]="products.length"
+        (page)="pageChanged($event)">
+       </mat-paginator> 
+      </div>
     
       
 

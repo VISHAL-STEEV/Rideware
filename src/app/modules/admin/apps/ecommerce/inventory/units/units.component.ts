@@ -1,4 +1,4 @@
-import { Component , NgModule, OnInit } from '@angular/core';
+import { Component , NgModule, OnInit, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { SearchpipePipe } from "../../../../../../pipe/searchpipe.pipe";
 import { MatIconModule } from '@angular/material/icon';
@@ -10,6 +10,8 @@ import { MatDialog } from '@angular/material/dialog';
 import { UnitsPopupComponent } from 'app/PopUp/units-popup/units-popup.component';
 import { MatButtonModule } from '@angular/material/button';
 import { Subscription } from 'rxjs';
+import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
+import { MatInputModule } from '@angular/material/input';
 
 @Component({
     selector: 'app-units',
@@ -18,13 +20,17 @@ import { Subscription } from 'rxjs';
     styleUrl: './units.component.scss',
     imports: [CommonModule, 
         SearchpipePipe, MatIconModule,
-         MatFormFieldModule, ReactiveFormsModule, 
-         FuseAlertComponent ,FormsModule,MatButtonModule]
+         MatFormFieldModule, ReactiveFormsModule, MatInputModule,
+         FuseAlertComponent ,FormsModule,MatButtonModule,MatPaginatorModule]
 })
 export class UnitsComponent implements OnInit {
 unit: any;
-all_units_category:any[];
+all_units_category:any[]=[];
 Click_Event_Sub:Subscription
+pageSize = 10; // Set your desired page size
+pageSizeOptions = [5, 10, 25, 100]; // Define your page size options
+Search_CateGory_data:string;
+
 
 
 constructor(private api_call : InventoryService,
@@ -42,12 +48,12 @@ constructor(private api_call : InventoryService,
 
  isToggle: any;
 
-products: any;
-Search_data: any;
+products: any[];
+
 
 ngOnInit(): void {
     this.display_all_data();
-   
+    
     
 }
 
@@ -55,7 +61,7 @@ display_all_data(){
     this.api_call.get_ALL_units().subscribe((res)=>{
         console.log(res.data.result)
         this.all_units_category = res.data.result
-        
+        this.products = this.all_units_category.slice(0, this.pageSize);
     })
 }
 
@@ -63,28 +69,28 @@ display_all_data(){
 
 
 ascending(){
-    this.all_units_category = this.all_units_category.sort((a: any, b: any) => {
+    this.products = this.products.sort((a: any, b: any) => {
         return a.name.localeCompare(b.name);
     });
   
   }
 
   ascending1(){
-    this.all_units_category = this.all_units_category.sort((a: any, b: any) => {
+    this.products = this.all_units_category.sort((a: any, b: any) => {
         return a.shortName.localeCompare(b.shortName);
     });
   
   }
 
   dcending1(){
-    this.all_units_category = this.all_units_category.sort((a: any, b: any) => {
+    this.products = this.products.sort((a: any, b: any) => {
         return b.shortName.localeCompare(a.shortName);
     });
   
   }
   
   dcending(){
-    this.all_units_category = this.all_units_category.sort((a: any, b: any) => {
+    this.products = this.products.sort((a: any, b: any) => {
         return b.name.localeCompare(a.name);
     });
   
@@ -128,6 +134,23 @@ Update__Product(data:any) {
             }
       })
    }
+
+
+
+
+
+   // Method to handle page change event
+pageChanged(event: any) {
+    // You can fetch data for the new page here based on event.pageIndex and event.pageSize
+
+     // Calculate the starting index of the displayed items
+  const startIndex = event.pageIndex * event.pageSize;
+  // Slice the array to get the items for the current page
+  this.products = this.all_units_category.slice(startIndex, startIndex + event.pageSize);
+
+  
+  }
+  
 
 
 }

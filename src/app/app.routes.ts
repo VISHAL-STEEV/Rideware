@@ -3,6 +3,12 @@ import { initialDataResolver } from 'app/app.resolvers';
 import { AuthGuard } from 'app/core/auth/guards/auth.guard';
 import { NoAuthGuard } from 'app/core/auth/guards/noAuth.guard';
 import { LayoutComponent } from 'app/layout/layout.component';
+import { CustomerComponent } from './modules/admin/apps/ecommerce/customer/customer.component';
+import { EmployeesComponent } from './modules/admin/apps/ecommerce/employees/employees.component';
+import { DepartmentsComponent } from './modules/admin/apps/ecommerce/departments/departments.component';
+import { DesignationsComponent } from './modules/admin/apps/ecommerce/designations/designations.component';
+import { UpOrAddEmpComponent } from './modules/admin/apps/ecommerce/employees/up-or-add-emp/up-or-add-emp.component';
+import { AcademyListComponent } from './modules/admin/apps/ecommerce/employees/academy/list/list.component';
 
 // @formatter:off
 /* eslint-disable max-len */
@@ -76,6 +82,13 @@ export const appRoutes: Route[] = [
         children: [
             {path: 'example', loadChildren: () => import('app/modules/admin/example/example.routes')},
             {path: 'inventory', loadChildren: () => import('app/modules/admin/apps/ecommerce/ecommerce.routes')},
+            {path: 'purchase', loadChildren: () => import('app/modules/admin/apps/ecommerce/purchase/purchase.routes')},
+            {path: 'Customer', component: CustomerComponent},
+            {path: 'Employees',  loadChildren: () => import('app/modules/admin/apps/ecommerce/employees/academy/academy.routes')},
+            {path: 'departments', component: DepartmentsComponent},
+            {path: 'designations', component: DesignationsComponent},
+            {path: 'Update_Add', loadChildren: () => import('app/modules/admin/apps/ecommerce/employees/academy/academy.routes') },
+
         ]
-    }
+    } 
 ];

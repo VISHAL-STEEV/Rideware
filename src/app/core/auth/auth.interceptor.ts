@@ -38,44 +38,26 @@ export const authInterceptor = (req: HttpRequest<unknown>, next: HttpHandlerFn):
     return next(newReq).pipe(
         catchError((error) =>
         {
+
+           
             // Catch "401 Unauthorized" responses
             if ( error instanceof HttpErrorResponse && error.status === 401 )
-            {
-                const token = localStorage.getItem('token');
+            {     
+                const token = localStorage.getItem('accessToken');
                 const refreshToken = localStorage.getItem('refreshToken');
             const token_data ={
               "Token":token,
               "RefreshToken": refreshToken,
               "ClientId": "ERPWebApp"
-          }
-          const http =inject(HttpClient)
-          return http.post(`${environment.apiURL}User/ValidateRefreshToken`, token_data).pipe(
-            map((res: any) => {
-              const token = res.data.token;
-              const refreshToken = res.data.refreshToken;
-
-              localStorage.setItem('token', token);
-              localStorage.setItem('refreshToken',refreshToken)
-
-              return res;
-            })
-          );
-
+          }    
+        
+          authService.get_New_Token(token_data).subscribe((res)=>{
+            return res;
+          })
           
-
-  
-
-
-
-
-                // // Sign out
                 // authService.signOut();
-
-                // // Reload the app
                 // location.reload();
-
-
-                console.log(error)
+                // console.log(error)
             }
 
             return throwError(error);

@@ -1,0 +1,240 @@
+
+    
+    <style>
+        .fixed-header {
+          position: sticky;
+          top: 0;
+          background-color: #ffffff; /* Adjust the background color as needed */
+          z-index: 1; /* Ensure the header stays on top of other elements */
+        }
+
+
+
+        .search-container {
+  position: relative;
+}
+
+.search-input {
+  padding: 10px 35px 10px 10px;
+  border: 1px solid #ccc;
+  border-radius: 20px;
+  font-size: 16px;
+  width: 250px;
+  outline: none;
+}
+
+.search-icon-container {
+  position: absolute;
+  top: 50%;
+  right: 10px;
+  transform: translateY(-50%);
+}
+
+.search-icon {
+  width: 24px;
+  height: 24px;
+  fill: #999;
+  cursor: pointer;
+}
+
+/* Optional: Styles for hover/focus */
+.search-input:hover,
+.search-input:focus {
+  border-color: #999;
+}
+
+.custom-button {
+    background-color: #4f46e5; 
+    color: #ffffff;
+    border-radius: 30px;
+    width: 6rem;
+    height: 2.5rem;
+    
+  }
+
+.custom-button:hover {
+    background-color: #433cc9; /* Darker shade for hover effect */
+}
+
+.paginator_class{
+          display: flex;
+          justify-content: center;
+        }
+    /* .add_continer{
+      display: flex;
+      flex-direction: row;
+    } */
+
+        .selecter_styl{
+          width: 70%;
+        }
+
+        .width_adjust{
+          width: 60%;
+        }
+      </style>
+
+
+
+<div class="sm:absolute sm:inset-0 flex flex-col flex-auto min-w-0 sm:overflow-hidden bg-card dark:bg-transparent">
+
+
+    <!-- Header -->
+    <div class="relative flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between py-8 px-6 md:px-8 border-b">
+        <!-- Loader -->
+        <!-- <div
+            class="absolute inset-x-0 bottom-0"
+            *ngIf="isLoading">
+            <mat-progress-bar [mode]="'indeterminate'"></mat-progress-bar>
+        </div> -->
+        <!-- Title -->
+
+
+        
+        <div class="text-4xl font-extrabold tracking-tight">Department List</div>
+        <!-- Actions -->
+        <div class="flex shrink-0 items-center mt-6 sm:mt-0 sm:ml-4">
+        
+          <mat-form-field
+          class="fuse-mat-dense fuse-mat-rounded min-w-64"
+          [subscriptSizing]="'dynamic'">
+          <mat-icon
+              class="icon-size-5"
+              matPrefix
+              [svgIcon]="'heroicons_solid:magnifying-glass'"></mat-icon>
+          <input
+              matInput
+              [(ngModel)]="Search_CateGory_data"
+              [autocomplete]="'off'"
+              [placeholder]="'Search products'">
+      </mat-form-field>
+
+
+
+
+              <button
+              class="ml-4"
+              mat-flat-button
+              [color]="'primary'"
+              (click)="create__Product()">
+              <mat-icon [svgIcon]="'heroicons_outline:plus'"></mat-icon>
+              <span class="ml-2 mr-1">  {{ showAboveRow === true ? 'Save' : 'Add' }}</span>
+          </button>
+           
+        </div>
+       
+    </div>
+
+      <div class="overflow-x-auto"> 
+        <table class="table-auto min-w-full divide-y divide-gray-200 border border-gray-200">
+          <thead class="fixed-header">
+            <tr>
+              <th class="px-6 py-3 bg-gray-50 text-sm leading-5 font-semibold text-gray-500 uppercase tracking-wider transition-all hover:bg-gray-100 border-b border-gray-200 text-left">
+                <ng-container *ngIf="isToggle">
+                  <mat-icon class="align-middle mr-1" svgIcon="heroicons_outline:bars-arrow-up" style="font-size: 1.5em"></mat-icon>
+                 
+                </ng-container>
+                <ng-container *ngIf="!isToggle">
+                  <mat-icon class="align-middle mr-1" svgIcon="heroicons_outline:bars-arrow-down" style="font-size: 1.5em"></mat-icon>
+                </ng-container>
+                <button class="align-middle" (click)="toggleState()" style="font-size: 1.1em; font-weight: bold;"> Department Name</button>
+              </th>
+        
+              <th class="px-6 py-3 bg-gray-50 text-sm leading-5 font-semibold text-gray-500 uppercase tracking-wider transition-all hover:bg-gray-100 border-b border-gray-200 text-left">
+                <ng-container *ngIf="isToggle">
+                  <mat-icon class="align-middle mr-1" svgIcon="heroicons_outline:bars-arrow-up" style="font-size: 1.5em"></mat-icon>
+                </ng-container>
+                <ng-container *ngIf="!isToggle">
+                  <mat-icon class="align-middle mr-1" svgIcon="heroicons_outline:bars-arrow-down" style="font-size: 1.5em"></mat-icon>
+                </ng-container>
+                <button class="align-middle" (click)="toggleState()" style="font-size: 1.1em; font-weight: bold;">Description</button>
+              </th>
+              <th class="px-6 py-3 bg-gray-50 text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider transition-all hover:bg-gray-100 border-b border-gray-200 text-left"></th>
+            </tr>
+          </thead>
+          <tbody class="bg-white divide-y divide-gray-200">
+            <tr>
+              <ng-container *ngIf="showAboveRow">
+                
+                <td >
+                  <ng-container  *ngTemplateOutlet="name"> </ng-container>
+                </td>
+                <td>
+                  <ng-container *ngTemplateOutlet="contactName"></ng-container>
+                </td>
+              </ng-container>
+            </tr>
+            <tr class="transition-all hover:bg-gray-100" *ngFor="let units of products |  searchpipe:Search_CateGory_data">  
+
+              <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200 text-left">
+                <ng-container *ngIf="!units.isEditing; else name">
+                  {{units.name}}
+              </ng-container>
+              </td>
+
+           
+              <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200 text-left">
+                <ng-container *ngIf="!units.isEditing ; else contactName">
+                  {{units.description}}
+              </ng-container></td>
+             
+              <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200 text-left">
+                <button >
+                  <mat-icon svgIcon="heroicons_mini:pencil-square" (click)="Update__Product(units)" ></mat-icon>
+                  <mat-icon (click)="Delete__Product(units.id)" svgIcon="mat_solid:delete_forever"></mat-icon>
+                </button>
+              </td>
+
+       
+            </tr>
+          </tbody>
+        </table>
+        
+      </div>
+      
+
+
+
+
+
+
+      <div class="paginator_class">
+        <mat-paginator [pageSize]="pageSize"
+        [pageSizeOptions]="pageSizeOptions"
+        [length]="all_units_category.length"
+        (page)="pageChanged($event)">
+       </mat-paginator> 
+      </div>
+  
+
+  
+  <ng-container >
+          <form class="example-form" [formGroup]="Customers_data">
+              
+
+
+            <ng-template #name>
+              <mat-form-field class="width_adjust ml-6">
+                <mat-label>Name</mat-label>
+                <input matInput formControlName="Name">
+              </mat-form-field>
+            </ng-template>
+            
+              <ng-template #contactName>
+                <mat-form-field class="width_adjust">
+                  <mat-label>Description</mat-label>
+                  <input matInput formControlName="Description">
+                </mat-form-field>
+              
+              </ng-template>
+    
+             
+             
+              <ng-template #tinNo>
+                  <button (click)="subbimt_data()" >save</button>
+              </ng-template>
+            </form>
+      </ng-container>   
+</div>
+
+

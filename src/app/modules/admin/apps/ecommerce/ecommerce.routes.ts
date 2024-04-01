@@ -9,6 +9,7 @@ import { GroupsComponent } from './inventory/Products/groups/groups.component';
 import { PriceListComponent } from './inventory/Products/price-list/price-list.component';
 import { CategoriesComponent } from './inventory/Products/categories/categories.component';
 import { ProductsComponent } from './inventory/Products/products/products.component';
+import { CreatProductComponent } from './inventory/Products/products/creat-product/creat-product.component';
 
 export default [
     {
@@ -81,5 +82,10 @@ export default [
                 component: ProductsComponent,
              },
         ],
-    }
+    },{
+        path     : 'product/Create_and_upadate/:id',
+        component: CreatProductComponent },
+        {
+            path     : 'product/Create_and_upadate',
+            component: CreatProductComponent }
 ] as Routes;

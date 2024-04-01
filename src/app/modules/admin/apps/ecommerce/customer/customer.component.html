@@ -1,0 +1,441 @@
+    
+    <style>
+        .fixed-header {
+          position: sticky;
+          top: 0;
+          background-color: #ffffff; /* Adjust the background color as needed */
+          z-index: 1; /* Ensure the header stays on top of other elements */
+        }
+
+
+
+        .search-container {
+  position: relative;
+}
+
+.search-input {
+  padding: 10px 35px 10px 10px;
+  border: 1px solid #ccc;
+  border-radius: 20px;
+  font-size: 16px;
+  width: 250px;
+  outline: none;
+}
+
+.search-icon-container {
+  position: absolute;
+  top: 50%;
+  right: 10px;
+  transform: translateY(-50%);
+}
+
+.search-icon {
+  width: 24px;
+  height: 24px;
+  fill: #999;
+  cursor: pointer;
+}
+
+/* Optional: Styles for hover/focus */
+.search-input:hover,
+.search-input:focus {
+  border-color: #999;
+}
+
+.custom-button {
+    background-color: #4f46e5; 
+    color: #ffffff;
+    border-radius: 30px;
+    width: 6rem;
+    height: 2.5rem;
+    
+  }
+
+.custom-button:hover {
+    background-color: #433cc9; /* Darker shade for hover effect */
+}
+
+.paginator_class{
+          display: flex;
+          justify-content: center;
+        }
+    /* .add_continer{
+      display: flex;
+      flex-direction: row;
+    } */
+
+        .selecter_styl{
+          width: 70%;
+        }
+ 
+
+      </style>
+
+
+
+<div class="sm:absolute sm:inset-0 flex flex-col flex-auto min-w-0 sm:overflow-hidden bg-card dark:bg-transparent">
+
+
+    <!-- Header -->
+    <div class="relative flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between py-8 px-6 md:px-8 border-b">
+        <!-- Loader -->
+        <!-- <div
+            class="absolute inset-x-0 bottom-0"
+            *ngIf="isLoading">
+            <mat-progress-bar [mode]="'indeterminate'"></mat-progress-bar>
+        </div> -->
+        <!-- Title -->
+
+
+        
+        <div class="text-4xl font-extrabold tracking-tight">Customer</div>
+        <!-- Actions -->
+        <div class="flex shrink-0 items-center mt-6 sm:mt-0 sm:ml-4">
+        
+          <mat-form-field
+          class="fuse-mat-dense fuse-mat-rounded min-w-64"
+          [subscriptSizing]="'dynamic'">
+          <mat-icon
+              class="icon-size-5"
+              matPrefix
+              [svgIcon]="'heroicons_solid:magnifying-glass'"></mat-icon>
+          <input
+              matInput
+              [(ngModel)]="Search_CateGory_data"
+              [autocomplete]="'off'"
+              [placeholder]="'Search products'">
+      </mat-form-field>
+
+
+
+            <button
+            class="ml-4"
+            mat-flat-button
+            [color]="'primary'"
+            (click)="create__Product()">
+            <mat-icon [svgIcon]="'heroicons_outline:plus'"></mat-icon>
+            <span class="ml-2 mr-1">  {{ showAboveRow === true ? 'Save' : 'Add' }}</span>
+        </button>
+         
+      </div>
+      
+       
+    </div>
+
+      <div class="overflow-x-auto"> 
+        <table class="table-auto min-w-full divide-y divide-gray-200 border border-gray-200">
+          <thead class="fixed-header">
+            <tr>
+              <th class="px-6 py-3 bg-gray-50 text-sm leading-5 font-semibold text-gray-500 uppercase tracking-wider transition-all hover:bg-gray-100 border-b border-gray-200 text-left">
+                <ng-container *ngIf="isToggle">
+                  <mat-icon class="align-middle mr-1" svgIcon="heroicons_outline:bars-arrow-up" style="font-size: 1.5em"></mat-icon>
+                 
+                </ng-container>
+                <ng-container *ngIf="!isToggle">
+                  <mat-icon class="align-middle mr-1" svgIcon="heroicons_outline:bars-arrow-down" style="font-size: 1.5em"></mat-icon>
+                </ng-container>
+                <button class="align-middle" (click)="toggleState()" style="font-size: 1.1em; font-weight: bold;">Name</button>
+              </th>
+        
+              <th class="px-6 py-3 bg-gray-50 text-sm leading-5 font-semibold text-gray-500 uppercase tracking-wider transition-all hover:bg-gray-100 border-b border-gray-200 text-left">
+                <ng-container *ngIf="isToggle">
+                  <mat-icon class="align-middle mr-1" svgIcon="heroicons_outline:bars-arrow-up" style="font-size: 1.5em"></mat-icon>
+                </ng-container>
+                <ng-container *ngIf="!isToggle">
+                  <mat-icon class="align-middle mr-1" svgIcon="heroicons_outline:bars-arrow-down" style="font-size: 1.5em"></mat-icon>
+                </ng-container>
+                <button class="align-middle" (click)="toggleState()" style="font-size: 1.1em; font-weight: bold;">contactName</button>
+              </th>
+              <th class="px-6 py-3 bg-gray-50 text-sm leading-5 font-semibold text-gray-500 uppercase tracking-wider transition-all hover:bg-gray-100 border-b border-gray-200 text-left">
+                <ng-container *ngIf="isToggle">
+                  <mat-icon class="align-middle mr-1" svgIcon="heroicons_outline:bars-arrow-up" style="font-size: 1.5em"></mat-icon>
+                </ng-container>
+                <ng-container *ngIf="!isToggle">
+                  <mat-icon class="align-middle mr-1" svgIcon="heroicons_outline:bars-arrow-down" style="font-size: 1.5em"></mat-icon>
+                </ng-container>
+                <button class="align-middle" (click)="toggleState()" style="font-size: 1.1em; font-weight: bold;">referenceNo</button>
+              </th>
+              <th class="px-6 py-3 bg-gray-50 text-sm leading-5 font-semibold text-gray-500 uppercase tracking-wider transition-all hover:bg-gray-100 border-b border-gray-200 text-left">
+                <ng-container *ngIf="isToggle">
+                  <mat-icon class="align-middle mr-1" svgIcon="heroicons_outline:bars-arrow-up" style="font-size: 1.5em"></mat-icon>
+                </ng-container>
+                <ng-container *ngIf="!isToggle">
+                  <mat-icon class="align-middle mr-1" svgIcon="heroicons_outline:bars-arrow-down" style="font-size: 1.5em"></mat-icon>
+                </ng-container>
+                <button class="align-middle" (click)="toggleState()" style="font-size: 1.1em; font-weight: bold;">phone1</button>
+              </th>
+              <th class="px-6 py-3 bg-gray-50 text-sm leading-5 font-semibold text-gray-500 uppercase tracking-wider transition-all hover:bg-gray-100 border-b border-gray-200 text-left">
+                <ng-container *ngIf="isToggle">
+                  <mat-icon class="align-middle mr-1" svgIcon="heroicons_outline:bars-arrow-up" style="font-size: 1.5em"></mat-icon>
+                </ng-container>
+                <ng-container *ngIf="!isToggle">
+                  <mat-icon class="align-middle mr-1" svgIcon="heroicons_outline:bars-arrow-down" style="font-size: 1.5em"></mat-icon>
+                </ng-container>
+                <button class="align-middle" (click)="toggleState()" style="font-size: 1.1em; font-weight: bold;">email</button>
+              </th>
+              <th class="px-6 py-3 bg-gray-50 text-sm leading-5 font-semibold text-gray-500 uppercase tracking-wider transition-all hover:bg-gray-100 border-b border-gray-200 text-left">
+                <ng-container *ngIf="isToggle">
+                  <mat-icon class="align-middle mr-1" svgIcon="heroicons_outline:bars-arrow-up" style="font-size: 1.5em"></mat-icon>
+                </ng-container>
+                <ng-container *ngIf="!isToggle">
+                  <mat-icon class="align-middle mr-1" svgIcon="heroicons_outline:bars-arrow-down" style="font-size: 1.5em"></mat-icon>
+                </ng-container>
+                <button class="align-middle" (click)="toggleState()" style="font-size: 1.1em; font-weight: bold;">Tax Reg no</button>
+              </th>
+        
+              <th class="px-6 py-3 bg-gray-50 text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider transition-all hover:bg-gray-100 border-b border-gray-200 text-left"></th>
+            </tr>
+          </thead>
+          <tbody class="bg-white divide-y divide-gray-200">
+            <tr>
+              <ng-container *ngIf="showAboveRow">
+                <td  class="pl-5">
+                  <ng-container  *ngTemplateOutlet="name">
+
+                  </ng-container>
+                </td>
+               
+                <td>
+                  <ng-container *ngTemplateOutlet="contactName"></ng-container>
+                </td>
+                <td>
+                  <ng-container *ngTemplateOutlet="referenceNo"></ng-container>
+                </td>
+                <td>
+                  <ng-container *ngTemplateOutlet="phone1"></ng-container>
+                </td>
+                <td>
+                  <ng-container *ngTemplateOutlet="email"></ng-container>
+                </td>
+                <td>
+                  <ng-container *ngTemplateOutlet="tinNo"></ng-container>
+                </td>
+
+              </ng-container>
+            </tr>
+            <tr class="transition-all hover:bg-gray-100" *ngFor="let units of products  | searchpipe:Search_CateGory_data  ">  
+
+              <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200 text-left">
+                <ng-container *ngIf="!units.isEditing; else name">
+                  {{units.name}}
+              </ng-container>
+              </td>
+
+           
+              <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200 text-left">
+                <ng-container *ngIf="!units.isEditing ; else contactName">
+                  {{units.contactName}}
+              </ng-container></td>
+
+              <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200 text-left">
+                <ng-container *ngIf="!units.isEditing; else referenceNo">
+                  {{units.referenceNo}}
+              </ng-container></td>
+
+              <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200 text-left">
+                <ng-container *ngIf="!units.isEditing; else phone1">
+                  {{units.phone1}}
+              </ng-container></td>
+
+              <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200 text-left"> <ng-container *ngIf="!units.isEditing; else email">
+                {{units.email}}
+            </ng-container></td>
+
+              <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200 text-left"> <ng-container *ngIf="!units.isEditing; else tinNo">
+                {{units.tinNo}}
+            </ng-container></td>
+             
+              <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200 text-left">
+                <ng-container >
+                  <button (click)="Show__Product(units)"  *ngIf="!units.isEditing; else otherButton ">
+                    <mat-icon svgIcon="heroicons_mini:pencil-square"></mat-icon>
+                  </button>
+
+                  <ng-template #otherButton>
+                    <div class="mb-4">
+                      <button mat-mini-fab color="warn" (click)="Show__Product(units)" >
+                        <mat-icon svgIcon="heroicons_outline:x-mark"></mat-icon>
+                      </button>
+                    </div>
+
+                    <div class="example-button-container">
+                      <button mat-mini-fab color="primary" (click)="Update__Product(units)" >
+                        <mat-icon svgIcon="system_update_alt"></mat-icon>
+                      </button>
+                    </div>
+                    
+                  </ng-template>
+              </ng-container>
+             
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        
+      </div>
+      
+
+
+
+
+
+
+      <div class="paginator_class">
+        <mat-paginator [pageSize]="pageSize"
+        [pageSizeOptions]="pageSizeOptions"
+        [length]="all_units_category.length"
+        (page)="pageChanged($event)">
+       </mat-paginator> 
+      </div>
+  
+
+
+
+
+
+
+    <!-- add and update inputs -->
+
+
+  
+  <ng-container>
+          <form class="example-form" [formGroup]="Customers_data">
+              
+
+            <ng-template #Add>
+              <div>
+                
+                <mat-chip-listbox aria-label="Fish selection" formControlName="partnerTypes"   class="chips_alinment">
+                <ng-container ><mat-chip-option  value="1" (click)="disableSelect(' ')" [class.selected]="selectedChip === ''">Is Individual</mat-chip-option></ng-container>
+                <ng-container> <mat-chip-option value="3" (click)="disableSelect('branch')" [class.selected]="selectedChip === 'branch'">Is Branch</mat-chip-option></ng-container>
+                <ng-container> <mat-chip-option  value="2" (click)="disableSelect('company');" [class.selected]="selectedChip === 'company'">Is Company</mat-chip-option></ng-container>
+                </mat-chip-listbox>
+              </div>
+              
+            </ng-template>
+
+            
+            <ng-template #Add_new>
+              <mat-form-field class="selecter_styl">
+                <mat-label>Company</mat-label>
+                <mat-select  formControlName="Company" [disabled]="isCompanyDisabled" >
+                  <mat-option value="{{item.id}}"   (click)="GetBranch(item.id)" *ngFor="let item of all_units_category" >{{item.name}}</mat-option>
+                </mat-select>
+              </mat-form-field>
+              <br>
+              <mat-form-field class="selecter_styl">
+                <mat-label>Branch</mat-label>
+                <mat-select formControlName="Branch" [disabled]="isBranchDisabled">
+                  <mat-option value="{{item.id}}"  *ngFor="let item of all_Branch" >{{item.name}}</mat-option>
+                </mat-select>
+              </mat-form-field>
+            </ng-template>
+
+            <ng-template #name>
+              <mat-chip-listbox aria-label="Fish selection" formControlName="partnerTypes">
+                <mat-chip-option value="1" (click)="disableSelect(' ')" [class.selected]="selectedChip === ''">Is Individual</mat-chip-option>
+                <mat-chip-option  value="3" (click)="disableSelect('branch')" [class.selected]="selectedChip === 'branch'">Is Branch</mat-chip-option>
+                <mat-chip-option  value="2" (click)="disableSelect('company');" [class.selected]="selectedChip === 'company'">Is Company</mat-chip-option>
+              </mat-chip-listbox>
+              <br>
+              <mat-form-field class="selecter_styl">
+                <mat-label>Company</mat-label>
+                <mat-select  formControlName="Company" [disabled]="isCompanyDisabled" >
+                  <mat-option value="{{item.id}}"   (click)="GetBranch(item.id)" *ngFor="let item of all_units_category" >{{item.name}}</mat-option>
+                </mat-select>
+              </mat-form-field>
+              <br>
+              <mat-form-field class="selecter_styl">
+                <mat-label>Branch</mat-label>
+                <mat-select formControlName="Branch" [disabled]="isBranchDisabled">
+                  <mat-option value="{{item.id}}"  *ngFor="let item of all_Branch" >{{item.name}}</mat-option>
+                </mat-select>
+              </mat-form-field>
+            </ng-template>
+            
+              <ng-template #contactName>
+             
+                  <mat-form-field class="example-full-width">
+                    <mat-label>Name</mat-label>
+                    <input matInput formControlName="Name">
+                  </mat-form-field>
+                  <br>
+                  <mat-form-field class="example-full-width">
+                    <mat-label>Contact Name</mat-label>
+                    <input matInput formControlName="Contact_Name">
+                  </mat-form-field>
+                  <br>
+                  <mat-form-field class="example-full-width">
+                    <mat-label>Referance No</mat-label>
+                    <input matInput formControlName="Referance_No">
+                  </mat-form-field>
+              </ng-template>
+              <ng-template #referenceNo>
+                  <mat-form-field class="example-full-width">
+                    <mat-label>Street</mat-label>
+                    <input matInput formControlName="Street">
+                  </mat-form-field>
+                  <br>
+                  <mat-form-field class="example-full-width">
+                    <mat-label>City</mat-label>
+                    <input matInput formControlName="City">
+                  </mat-form-field>
+                  <br>
+                  <mat-form-field class="example-full-width">
+                    <mat-label>State</mat-label>
+                    <input matInput formControlName="State">
+                  </mat-form-field>
+              </ng-template>
+             
+              <ng-template #phone1>
+                <mat-form-field>
+                  <mat-label>Country</mat-label>
+                  <mat-select formControlName="Country"  >
+                    <mat-option *ngFor="let data of Get_All_Country"  value="{{data.id}}">{{data.name}}</mat-option>
+                  </mat-select>
+                </mat-form-field>
+                <br>
+                <mat-form-field class="example-full-width">
+                  <mat-label>Zip</mat-label>
+                  <input matInput formControlName="Zip">
+                </mat-form-field>
+                <br>
+                <mat-form-field class="example-full-width">
+                  <mat-label>Phone No</mat-label>
+                  <input matInput formControlName="Phone_No">
+                </mat-form-field>
+              </ng-template>
+              <ng-template #email>
+                  <mat-form-field class="w-5/6 ">
+                    <mat-label>Phone No2</mat-label>
+                    <input matInput formControlName="Phone_No2">
+                  </mat-form-field>
+                  <br>
+                  <mat-form-field class="w-5/6 ">
+                    <mat-label>Email</mat-label>
+                    <input matInput formControlName="Email">
+                  </mat-form-field>
+                  <br>
+                  <mat-form-field class="w-5/6">
+                    <mat-label>Tax RegNo</mat-label>
+                    <input matInput formControlName="Tax_RegNo">
+                  </mat-form-field>
+              </ng-template>
+              <ng-template #tinNo>
+                  <mat-form-field class="example-full-width">
+                    <mat-label>Tin No</mat-label>
+                    <input matInput formControlName="Tin_No">
+                  </mat-form-field>
+                  <br>
+                  <mat-form-field class="example-full-width">
+                    <mat-label>Address</mat-label>
+                    <textarea matInput formControlName="Address"></textarea>
+                  </mat-form-field>
+              </ng-template>
+
+        
+            </form>
+      </ng-container>   
+</div>
+
+
