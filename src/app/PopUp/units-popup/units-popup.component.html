@@ -1,0 +1,98 @@
+<style>
+
+
+.popup-heading {
+  font-size: 1.4em; /* Adjust the font size as needed */
+    font-weight: bold;
+    color: #333; /* Choose your desired color */
+    text-align: center; /* Center the heading */
+    margin-bottom: 20px; /* Add some space below the heading */
+    text-transform: uppercase; /* Convert the text to uppercase */
+    letter-spacing: 2px; /* Add some letter spacing for emphasis */
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3); /* Add a subtle shadow */
+    
+}
+
+.form-container {
+  width: 500px;
+  max-width: 100%;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #ffffff;
+  border-radius: 8px;
+}
+
+.example-container {
+  display: flex;
+  justify-content: space-between;
+ 
+}
+
+.mat-form-field {
+  width: 45%; /* Adjust as needed */
+}
+
+button {
+  margin-top: 20px;
+ 
+ 
+}
+.btn_class {
+  display: flex;
+  align-items: end;
+}
+.adjust_width{
+  width:100%;
+}
+.adjust_width_1{
+  width: 45%;
+}
+
+
+
+</style>
+
+
+
+<div class="popup-container">
+  <h2 class="popup-heading">Units Details</h2>
+  <div class="form-container">
+    <form id="unit-form" [formGroup]="unitForm">
+
+      <mat-form-field class="example-full-width adjust_width">
+        <mat-label>name</mat-label>
+        <input matInput formControlName="Display_name" type="text">
+      </mat-form-field>
+
+      <div class="example-container">
+        <mat-form-field class="adjust_width_1">
+          <mat-label>Unit Category</mat-label>
+          <mat-select formControlName="selectedUnitType">
+            
+            <mat-option *ngFor="let item of Drop_down_category" [value]="item.name" (click)="get_id(item.id)">{{ item.name }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field class="adjust_width_1">
+          <mat-label >Unit Type</mat-label>
+          <mat-select formControlName="selected_UnitType" (ngModelChange)="updateFactorBase()">
+            <mat-option value="Reference Unit of Measure for this category">Reference</mat-option>
+            <mat-option value="Smaller than the reference Unit of Measure">Smaller</mat-option>
+            <mat-option value="Bigger than the reference Unit of Measure">Bigger</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+
+      <mat-form-field class="example-full-width adjust_width">
+        <mat-label>Factor Base Ratio</mat-label>
+        <input formControlName="factor_BaseRatio" type="number"  matInput [disabled]="unitForm.get('factor_BaseRatio').disabled">
+      </mat-form-field>
+      
+    </form>
+
+    <div class="btn_class">
+      <button mat-raised-button color="primary" mat-dialog-close (click)="Create_Update_Data()">Submit</button>
+    </div>
+
+  </div>
+</div>

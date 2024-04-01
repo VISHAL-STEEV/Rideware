@@ -1,0 +1,60 @@
+<style>
+.container {
+  width: 80%;
+  margin: 0 auto;
+  text-align: center; 
+}
+
+h2 {
+  font-size: 1.4em; /* Adjust the font size as needed */
+    font-weight: bold;
+    color: #333; /* Choose your desired color */
+    text-align: center; /* Center the heading */
+    margin-bottom: 20px; /* Add some space below the heading */
+    text-transform: uppercase; /* Convert the text to uppercase */
+    letter-spacing: 2px; /* Add some letter spacing for emphasis */
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3); /* Add a subtle shadow */
+    
+}
+
+.example-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.example-full-width {
+  width: 300px;
+  margin-bottom: 10px;
+}
+
+button {
+  margin-top: 5px;
+}
+
+.mat-form-field {
+  text-align: left; 
+}
+
+
+</style>
+
+
+
+
+
+
+
+
+<div class="container">
+    <h2>Units category </h2>
+    <form class="example-form" [formGroup]="product_Form">
+      <mat-form-field class="example-full-width">
+        <mat-label>Name</mat-label>
+        <input matInput
+        formControlName="name" >
+      </mat-form-field>
+      <button mat-raised-button color="primary" (click)="Create_Category()" mat-dialog-close>{{ change_btn_content === true ? 'Save' : 'Update' }}</button>
+    </form>
+  </div>
+  
