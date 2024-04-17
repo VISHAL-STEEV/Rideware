@@ -39,9 +39,9 @@ export class CustomerComponent implements OnInit {
   pageSize = 10; // Set your desired page size
   pageSizeOptions = [5, 10, 25, 100]; // Define your page size options
   showAboveRow: boolean = false;
-isCompanyDisabled: boolean = false;
-isBranchDisabled: boolean = false;
-show_update_btn : boolean = false;
+  isCompanyDisabled: boolean = false;
+  isBranchDisabled: boolean = false;
+  show_update_btn : boolean = false;
 
 
 

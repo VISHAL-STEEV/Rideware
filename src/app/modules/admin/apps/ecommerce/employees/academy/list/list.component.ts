@@ -50,12 +50,20 @@ products_groups_all_data:any[]=[];
         })
        }
  
-       Update_emp(){
+       Update_emp(id:any){
         setTimeout(() => {
-          this.route.navigate(['/Employees/Detailed'])
+          this.route.navigate(['/Employees/Detailed',id])
         }, 200);
          
        }
+       View_emp(id:any){
+        setTimeout(() => {
+          this.route.navigate(['/Employees/ViewEmployee',id])
+        }, 200);
+       }
+
+
+
 
        AddProduct() {
         setTimeout(() => {

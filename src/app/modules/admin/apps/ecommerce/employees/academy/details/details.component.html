@@ -35,11 +35,12 @@
                 class="relative">
                 <div class="w-24 h-24 rounded-full overflow-hidden">
                     <img type="file" (change)="onFileSelected($event)" id="FileInput"
-                     class="object-cover w-full h-full" src="assets/images/propic.jpg" alt="Employee Photo">
+                     class="object-cover w-full h-full" [src]="employee_pic"  alt="Employee Photo">
                 </div>
                 <ng-container *ngIf="Uploa_img">
                     <div class="cursor-pointer absolute top-0 left-0 flex items-center justify-center w-8 h-8 bg-gray-200 rounded-full">
-                       <button (click)="Upload()" >
+                      <input hidden type="file" #propic (change)="ImageUpload($event)">
+                       <button (click)="propic.click()" >
                         <mat-icon svgIcon="heroicons_outline:pencil"></mat-icon>
                        </button> 
                     </div>
@@ -168,14 +169,9 @@
                                                   <mat-form-field class="w-1/2 max-sm:w-full"> 
                                                     <mat-label>Department</mat-label>
                                                     <mat-select formControlName="Department">
-                                                      <mat-option>None</mat-option>
-                                                      <mat-option value="option1">Option 1</mat-option>
-                                                      <mat-option value="option2">Option 2</mat-option>
-                                                      <mat-option value="option3">Option 3</mat-option>
+                                                      <mat-option value="{{data.id}}" *ngFor="let data of Department">{{data.name}}</mat-option>
                                                     </mat-select>
                                                   </mat-form-field>
-
-                                              
                                                </div>
 
                                                
@@ -217,10 +213,9 @@
                                                 <mat-datepicker #Joining_On></mat-datepicker>
                                               </mat-form-field>
                                               <mat-form-field class="w-1/2 max-sm:w-full"> 
-                                                <mat-label>Department</mat-label>
+                                                <mat-label>Designation</mat-label>
                                                 <mat-select formControlName="Designation">
-                                                  <mat-option>None</mat-option>
-                                                  <mat-option value="option1">Option 1</mat-option>
+                                                  <mat-option value="{{item.id}}" *ngFor="let item of Designations_data">{{item.name}}</mat-option>
                                                 </mat-select>
                                               </mat-form-field>
                                            </div>
@@ -241,15 +236,21 @@
                                                   </mat-form-field>
                                             </div>
 
-
+                                            <button
+                                            class="ml-4"
+                                            mat-flat-button
+                                            [color]="'primary'"
+                                            (click)="Add_Office_details()">
+                                            <mat-icon [svgIcon]="'heroicons_outline:plus'"></mat-icon>
+                                            <span class="ml-2 mr-1"> Save</span>
+                                        </button>
                                              
                                           
                                           </form>
                                           
                                     </ng-container>
 
-
-                        
+                                    <!-- Personal -->
                                     <ng-container *ngIf="step.content === 'Personal'">
                                         <form  [formGroup]="Up_emp_Personal">
                                            
@@ -265,8 +266,9 @@
                                                   <mat-form-field class="w-1/2 max-sm:w-full"> 
                                                     <mat-label>Blood Group</mat-label>
                                                     <mat-select formControlName="Blood_Group">
-                                                      <mat-option>None</mat-option>
-                                                      <mat-option value="option1">Option 1</mat-option>
+                                                      <mat-option value="B+">B</mat-option>
+                                                      <mat-option value="O-">O</mat-option>
+                                                      
                                                     </mat-select>
                                                   </mat-form-field>
 
@@ -289,9 +291,9 @@
                                             <div class="flex gap-6 max-sm:flex-col  mb-2">
                                                   <mat-radio-group aria-label="Select an option" class="w-1/2 max-sm:w-full" formControlName="Gender">
                                                     <mat-label>Gender</mat-label>
-                                                    <mat-radio-button color="primary" value="1">male</mat-radio-button>
-                                                    <mat-radio-button color="primary" value="2">Female</mat-radio-button>
-                                                    <mat-radio-button color="primary" value="2">Other</mat-radio-button>
+                                                    <mat-radio-button color="primary" value="0">male</mat-radio-button>
+                                                    <mat-radio-button color="primary" value="1">Female</mat-radio-button>
+                                                    <mat-radio-button color="primary" value="3">Other</mat-radio-button>
                                                   </mat-radio-group>
                                             </div>
                                             <div class="flex gap-6 max-sm:flex-col mb-3">
@@ -299,8 +301,8 @@
                                                 
                                                 <mat-radio-group aria-label="Select an option" class="w-1/2 max-sm:w-full" formControlName="Marital_Status">
                                                   <mat-label>Marital Status</mat-label>
-                                                  <mat-radio-button color="primary" value="1">Single</mat-radio-button>
-                                                  <mat-radio-button color="primary" value="2">Married</mat-radio-button>
+                                                  <mat-radio-button color="primary" value="0">Single</mat-radio-button>
+                                                  <mat-radio-button color="primary" value="1">Married</mat-radio-button>
                                                 </mat-radio-group>
                                           </div>
 
@@ -322,10 +324,20 @@
                                                 <textarea  matInput formControlName="Current_Address"></textarea>
                                               </mat-form-field>
                                         </div>
-
+                                        <button
+                                        class="ml-4"
+                                        mat-flat-button
+                                        [color]="'primary'"
+                                        (click)="Add_Personal_details()">
+                                        <mat-icon [svgIcon]="'heroicons_outline:plus'"></mat-icon>
+                                        <span class="ml-2 mr-1"> Save</span>
+                                    </button>
 
                                         </form>
                                     </ng-container>
+
+                                    
+                                    <!-- Bank -->
                                     <ng-container *ngIf="step.content === 'Bank'">
                                        <form [formGroup]="Up_emp_Bank">
                                                     <div class="flex gap-6 max-sm:flex-col">
@@ -365,25 +377,46 @@
                                                   <textarea  matInput formControlName="Branch_Address"></textarea>
                                                 </mat-form-field>
                                           </div>
+                                           <button
+                                            class="ml-4"
+                                            mat-flat-button
+                                            [color]="'primary'"
+                                            (click)="Add_Bank_details()">
+                                            <mat-icon [svgIcon]="'heroicons_outline:plus'"></mat-icon>
+                                            <span class="ml-2 mr-1"> Save</span>
+                                        </button>
                                        </form>
                                     </ng-container>
+
+                                    <!-- Documents -->
+
                                     <ng-container *ngIf="step.content === 'Documents'">
-
-
-                                        <mat-form-field>
-                                            <mat-label>Document</mat-label>
-                                            <input type="file" (change)="onFileSelected($event)">
-                                          </mat-form-field>
-                                          <button mat-raised-button color="primary" (click)="uploadFile()">Upload</button>
-                                          <mat-spinner *ngIf="isUploading" diameter="30" color="accent"></mat-spinner>
-                                          
-                                         
+                                      <div class="flex gap-6 max-sm:flex-col">
+                                        <mat-form-field class="w-full mt-3 ">
+                                          <mat-label> Description</mat-label>
+                                          <textarea  matInput ></textarea>
+                                        </mat-form-field>
+                                      </div>
+                                <div class="flex gap-3">
+                                  <div>
+                                    <input hidden type="file" #Document (change)="Upload_document($event)">
+                                    <button mat-raised-button color="primary" (click)="Document.click()" >Browse</button>
+                                  </div>
+                                   
+                                  <div>
+                                    <button mat-raised-button color="primary" >Upload</button>
+                                  </div>
+                                </div>
+                                      <mat-spinner *ngIf="isUploading" diameter="30" color="accent"></mat-spinner>  
                                     </ng-container>
+
+
+                                    <!-- Educations -->
                                     <ng-container *ngIf="step.content === 'Educations'">
 
 
                                         <div class="overflow-x-auto  ">
-                                          <div class="flex justify-end">
+                                          <div class="flex justify-start">
                                             <button  class="ml-4"
                                             mat-flat-button
                                             [color]="'primary'">
@@ -411,18 +444,90 @@
                                                   <th class="px-6 py-3 bg-gray-50 text-sm leading-5 font-semibold text-gray-500 uppercase tracking-wider transition-all hover:bg-gray-100 border-b border-gray-200 text-left">
                                                     Percentage
                                                   </th>
+                                                  <th class="px-6 py-3 bg-gray-50 text-sm leading-5 font-semibold text-gray-500 uppercase tracking-wider transition-all hover:bg-gray-100 border-b border-gray-200 text-left">
+                                                    Action
+                                                  </th>
                                                 </tr>
                                               </thead>
-                                              <tbody class="bg-white divide-y divide-gray-200">
-                                                <tr class="transition-all hover:bg-gray-100" >       
-                                                  <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200 text-left">Bsc</td>
-                                                  <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200 text-left">University</td>
-                                                  <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200 text-left">Jun</td>
-                                                  <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200 text-left">2015</td>
+                                              <tbody class="bg-white divide-y divide-gray-200" >
+                                                <tr class="transition-all hover:bg-gray-100" *ngFor="let data of EMP_Edu_detils" >       
                                                   <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200 text-left">
-                                                   65%
+                                                    <ng-container *ngIf="!data.isEditing; else degree">
+                                                      {{data.degree}}
+                                                    </ng-container>
+                                                  </td>
+                                                  <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200 text-left">
+                                                    <ng-container *ngIf="!data.isEditing; else instituteName">
+                                                      {{data.instituteName}}
+                                                    </ng-container>
+                                                  </td>
+                                                  <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200 text-left">
+                                                    <ng-container *ngIf="!data.isEditing; else passingMonth">
+                                                      {{data.passingMonth}}
+                                                    </ng-container>
+                                                  </td>
+                                                  <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200 text-left">
+                                                    <ng-container *ngIf="!data.isEditing; else passingYear">
+                                                      {{data.passingYear}}
+                                                    </ng-container>
+                                                  </td>
+                                                  <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200 text-left">
+                                                    <ng-container *ngIf="!data.isEditing; else percentage">
+                                                      {{data.percentage}}%
+                                                    </ng-container>
+                                                  </td>
+                                                  <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200 text-left flex flex-row gap-1">
+                                                    <button mat-mini-fab color="accent"  (click)="edit_emp(data)">
+                                                      <mat-icon svgIcon="mat_outline:edit"></mat-icon>
+                                                    </button>
+
+                                                    <button mat-mini-fab color="warn" (click)="DeteteEduData(data.id)" >
+                                                      <mat-icon svgIcon="mat_outline:delete_forever"></mat-icon>
+                                                    </button>
                                                   </td>
                                                 </tr>
+                                                
+                                                <ng-container>
+                                                  <form [formGroup]="EmpEduData"  >
+                                                      <td>
+                                                        <ng-template #degree>
+                                                          <mat-form-field class="example-full-width">
+                                                            <input matInput  formControlName="EMP_degree"  >
+                                                          </mat-form-field>
+                                                      </ng-template>
+                                                      </td>
+                                                      <td>
+                                                        <ng-template #instituteName>
+                                                          <mat-form-field class="example-full-width">
+                                                            <input matInput formControlName="EMP_instituteName" >
+                                                          </mat-form-field>
+                                                      </ng-template>
+                                                      </td>
+                                                      <td>
+                                                        <ng-template #passingMonth>
+                                                          <mat-form-field class="example-full-width">
+                                                            <input matInput formControlName="EMP_passingMonth" >
+                                                          </mat-form-field>
+                                                      </ng-template>
+                                                      </td>
+                                                      <td>
+                                                        <ng-template #passingYear>
+                                                          <mat-form-field clas="example-full-width">
+                                                            <input matInput formControlName="EMP_passingsYear" >
+                                                          </mat-form-field>
+                                                      </ng-template>
+                                                      </td>
+                                                      <td>
+                                                        <ng-template #percentage>
+                                                          <mat-form-field class="example-full-width">
+                                                            <input matInput formControlName="EMP_percentage" >
+                                                          </mat-form-field>
+                                                      </ng-template>
+                                                      </td>
+                                                  </form>
+                                                </ng-container>
+                                                
+
                                               </tbody>
                                             </table>
 

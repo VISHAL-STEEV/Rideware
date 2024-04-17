@@ -6,6 +6,7 @@ import { AcademyDetailsComponent } from 'app/modules/admin/apps/ecommerce/employ
 import { AcademyListComponent } from 'app/modules/admin/apps/ecommerce/employees/academy/list/list.component';
 import { catchError, throwError } from 'rxjs';
 import { EmployeesComponent } from '../employees.component';
+import { UpOrAddEmpComponent } from '../up-or-add-emp/up-or-add-emp.component';
 
 export default [
     {
@@ -14,9 +15,14 @@ export default [
         component: AcademyListComponent,
     },
     {
-        path     : 'Detailed',
+        path     : 'Detailed/:id',
         component: AcademyDetailsComponent,
-    },   {
+    },    {
+        path     : 'ViewEmployee/:id',
+        component: UpOrAddEmpComponent,
+    },
+    
+    {
         path     : 'Add',
         component: EmployeesComponent,
     }

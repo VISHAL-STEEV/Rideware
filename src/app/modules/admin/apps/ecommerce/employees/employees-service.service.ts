@@ -78,8 +78,13 @@ export class EmployeesServiceService {
 
 
   
-  UpdateEmployee(){
 
+
+
+
+
+
+  GetEmployeeProfilePhoto(){
 
     const accessToken =localStorage.getItem('accessToken')
           const httpOptions = {
@@ -89,32 +94,105 @@ export class EmployeesServiceService {
           };
           
           const key = {
-            "id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-            "firstName": "string",
-            "lastName": "string",
-            "middleName": "string",
-            "officeEmailId": "string",
-            "officeContactNo": "string",
-            "joiningOn": "2024-03-21T05:39:21.197Z",
-            "relievingOn": "2024-03-21T05:39:21.197Z",
-            "confirmationOn": "2024-03-21T05:39:21.197Z",
-            "resignationOn": "2024-03-21T05:39:21.197Z",
-            "designationId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-            "reportingToId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-            "departmentId": "3fa85f64-5717-4562-b3fc-2c963f66afa6"
+            "searchKeyword": " ",
+            "pageIndex": 0,
+            "pageSize": 0
           }
          
-          return this._httpClient.post<any>(`${environment.apiURL}/Employee/UpdateEmployee`,key, httpOptions ).pipe(
+          return this._httpClient.post<any>(`${environment.apiURL}/Employee/GetEmployeeProfilePhoto`,key, httpOptions ).pipe(
                 map((response) =>
-                { 
+                {    
                              return  response;
                 }), 
             );
+
+
+
+            
   
+  }
+  
+
+
+
+
+
+
+  GetEmployeeById(id:any){
+    const accessToken =localStorage.getItem('accessToken')
+    const httpOptions = {
+    headers: new HttpHeaders({
+    'Authorization': 'Bearer ' + accessToken
+    })
+    };
+    
+    const key = {
+      "id": id
+    }
+   
+    return this._httpClient.post<any>(`${environment.apiURL}/Employee/GetEmployeeById`,key, httpOptions ).pipe(
+          map((response) =>
+          {    
+                       return  response;
+          }), 
+      );
+
+
   }
 
 
+
   
+  
+  GetEmployeeBankDetail(id:any){
+    const accessToken =localStorage.getItem('accessToken')
+    const httpOptions = {
+    headers: new HttpHeaders({
+    'Authorization': 'Bearer ' + accessToken
+    })
+    };
+    
+    const key = {
+      "employeeId":id
+    }
+   
+    return this._httpClient.post<any>(`${environment.apiURL}/EmployeeBankDetail/GetEmployeeBankDetail`,key, httpOptions ).pipe(
+          map((response) =>
+          {    
+                       return  response;
+          }), 
+      );
+
+
+  }
+
+  GetEmployeePersonalDetailById(id:any){
+    const accessToken =localStorage.getItem('accessToken')
+    const httpOptions = {
+    headers: new HttpHeaders({
+    'Authorization': 'Bearer ' + accessToken
+    })
+    };
+    
+    const key = {
+      "employeeId":id
+    }
+   
+    return this._httpClient.post<any>(`${environment.apiURL}/EmployeePersonalDetail/GetEmployeePersonalDetailById`,key, httpOptions ).pipe(
+          map((response) =>
+          {    
+                       return  response;
+          }), 
+      );
+
+
+  }
+
+
+    
+
+
+
 
 
 

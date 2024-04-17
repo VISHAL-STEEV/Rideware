@@ -1,0 +1,264 @@
+<style>
+    .employee-container {
+  display: flex;
+  align-items: center;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  margin-bottom: 20px;
+}
+
+.employee-photo {
+  flex: 0 0 auto;
+  width: 100px;
+  height: 100px;
+  border-radius: 50%; /* creates round shape */
+  overflow: hidden; /* ensure photo stays within round shape */
+  margin-right: 20px;
+}
+
+.employee-photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.employee-details {
+  flex: 1;
+}
+
+@media (max-width: 768px) {
+  .employee-container {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .employee-photo {
+    margin-right: 0;
+    margin-bottom: 10px;
+  }
+}
+
+</style>
+
+
+<div
+    class="absolute inset-0 flex flex-col min-w-0 overflow-y-auto"
+    cdkScrollable>
+
+    <!-- Header -->
+    <div class="relative flex-0 py-8 px-4 sm:p-16 overflow-hidden bg-gray-800 dark">
+        <!-- Background - @formatter:off -->
+        <!-- Rings -->
+        <svg class="absolute inset-0 pointer-events-none"
+             viewBox="0 0 960 540" width="100%" height="100%" preserveAspectRatio="xMidYMax slice" xmlns="http://www.w3.org/2000/svg">
+            <g class="text-gray-700 opacity-25" fill="none" stroke="currentColor" stroke-width="100">
+                <circle r="234" cx="196" cy="23"></circle>
+                <circle r="234" cx="790" cy="491"></circle>
+            </g>
+        </svg>
+        <!-- @formatter:on -->
+        <div class="z-10 relative flex flex-col items-center">
+            <h2 class="text-xl font-semibold">Rideware Technologies</h2>
+          
+            <div class="max-w-2xl mt-6 sm:text-2xl text-center tracking-tight text-secondary">
+                Seamlessly integrate your employee interface into Angular UI in just 30 words, optimizing workflow and enhancing user experience effortlessly.
+            </div>
+        </div>
+    </div>
+
+    <!-- Main -->
+    <div class="flex flex-auto p-6 sm:p-10" >
+
+        <div class="flex flex-col flex-auto w-full max-w-xs sm:max-w-5xl mx-auto">
+         
+            <!-- Courses -->
+         
+            
+                <div>
+                    <div class="w-full  flex items-center justify-center mr-4 flex-col employee-container bg-white p-6 rounded-lg shadow-lg mt-3 " *ngFor="let data of EmpolyeeData1 " >
+                        <div class="w-24 h-24 rounded-full overflow-hidden">
+                            <img  class="object-cover w-full h-full" src="/assets/images/avatars/brian-hughes.jpg" alt="Employee Photo">
+                        </div>
+                        <h2 class="text-xl font-semibold text-gray-800">Full Name: {{data.fullName}}</h2>
+                        <p class="text-gray-600">Employee Code: {{data.employeeCode}}</p>
+                    </div>
+
+
+          
+                    <div class="flex flex-col gap-3">
+
+                        <!-- Office -->
+                        <mat-accordion>
+                            <mat-expansion-panel >
+                            <mat-expansion-panel-header>
+                                <mat-panel-title>
+                                Office
+                                </mat-panel-title>
+                               
+                            </mat-expansion-panel-header>
+                            <div class="employee-details mt-4" *ngFor="let data of EmpolyeeData1 ">
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                    <div class="border rounded-md p-4">
+                                  
+                                        <div class="grid grid-cols-1 md:grid-cols-2 gap-2">
+                                            <div>
+                                                <p><span class="font-semibold">Office Email ID:</span> {{data.officeEmailId}}</p>
+                                                <p><span class="font-semibold">Office Contact No:</span> {{data.officeContactNo}}</p>
+                                                <p><span class="font-semibold">Department:</span> {{data.departmentName}}</p>
+                                                <p><span class="font-semibold">Reporting To:</span> {{data.reportingToName}}</p>
+                                                <p><span class="font-semibold">Designation:</span> {{data.designationName}}</p>
+                                               
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="border rounded-md p-4">
+                                        
+                                        <div>
+                                            <p><span class="font-semibold">First Name:</span> {{data.firstName}}</p>
+                                            <p><span class="font-semibold">Middle Name:</span> {{data.middleName}}</p>
+                                            <p><span class="font-semibold">Last Name:</span> {{data.lastName}}</p>
+                                            <p><span class="font-semibold">Relieving Date:</span> {{data.relievingOn}}</p>
+                                            <p><span class="font-semibold">Resignation Date:</span> {{data.resignationOn}}</p>
+                                            <p><span class="font-semibold">Joining Date:</span> {{data.joiningOn}}</p>
+                                            <p><span class="font-semibold">Confirmation Date:</span> {{data.confirmationOn}}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            </mat-expansion-panel>
+                        </mat-accordion>
+                        <!-- Personal -->
+                        <mat-accordion>
+                            <mat-expansion-panel >
+                            <mat-expansion-panel-header>
+                                <mat-panel-title>
+                                Personal
+                                </mat-panel-title>
+                             
+                            </mat-expansion-panel-header>
+                            <div class="employee-details mt-4" *ngFor="let data of EmpPersonal ">
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                    <div class="border rounded-md p-4">
+                                      
+                                        <div class="grid grid-cols-1 md:grid-cols-2 gap-2">
+                                            <div>
+                                                <p><span class="font-semibold">Marital Status:</span> {{data.maritalStatusText}}</p>
+                                                <p><span class="font-semibold">Personal Email Id:</span> {{data.personalEmailId}}</p>
+                                                <p><span class="font-semibold">Blood Group:</span> {{data.bloodGroup}}</p>
+                                                <p><span class="font-semibold">Birth Date:</span> {{data.birthDate}}</p>
+                                                <p><span class="font-semibold">Personal Mobile No:</span> {{data.personalMobileNo}}</p>
+                                               
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="border rounded-md p-4">
+                                        
+                                        <div>
+                                            <p><span class="font-semibold">Other Contact No:</span> {{data.designationName}}</p>
+                                            <p><span class="font-semibold">Parmenant Address:</span> {{data.parmenantAddress}}</p>
+                                            <p><span class="font-semibold">Current Address:</span> {{data.currentAddress}}</p>
+                                            
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            </mat-expansion-panel>
+                        </mat-accordion>
+
+
+                        <!-- Bank Information -->
+
+                        <mat-accordion>
+                            <mat-expansion-panel >
+                            <mat-expansion-panel-header>
+                                <mat-panel-title>
+                            Bank Information
+                                </mat-panel-title>
+                              
+                            </mat-expansion-panel-header>
+                            <div class="employee-details mt-4" *ngIf="EmpBankDetails && EmpBankDetails.length > 0">
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-4" *ngFor="let item of EmpBankDetails">
+                                    <div class="border rounded-md p-4" >
+                                      
+                                        <div class="grid grid-cols-1 md:grid-cols-2 gap-2">
+                                            <div>
+                                                <p><span class="font-semibold">Bank Name:</span> {{item.accountNumber}}</p>
+                                                <p><span class="font-semibold">Account Number:</span> {{item.accountNumber}}</p>
+                                                <p><span class="font-semibold">IFSC Code:</span> {{item.ifscCode}}</p>
+                                                <p><span class="font-semibold"> Branch Address:</span> {{item.branchAddress}}</p>
+                                               
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="border rounded-md p-4">
+                                        
+                                        <div>
+                                            <p><span class="font-semibold">PAN Number:</span> {{item.panNumber}}</p>
+                                            <p><span class="font-semibold">PF Number:</span> {{item.pfNumber}}</p>
+                                            <p><span class="font-semibold">UAN Number:</span> {{item.uanNumber}}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            </mat-expansion-panel>
+                        </mat-accordion>
+
+                        <!-- Documents -->
+     
+                        <mat-accordion>
+                            <mat-expansion-panel >
+                            <mat-expansion-panel-header>
+                                <mat-panel-title>
+                                Documents
+                                </mat-panel-title>
+                           
+                            </mat-expansion-panel-header>
+                         <p>No documents</p>
+                            </mat-expansion-panel>
+                        </mat-accordion>
+
+                        <!-- Educations -->
+                        <mat-accordion>
+                            <mat-expansion-panel >
+                            <mat-expansion-panel-header>
+                                <mat-panel-title>
+                                Educations
+                                </mat-panel-title>
+                            </mat-expansion-panel-header>
+                            <div class="employee-details mt-4">
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-4" *ngFor="let data of EMPEdudetils">
+                                    <div class="border rounded-md p-4 flex flex-col gap-2">
+                                      
+                                        <div class="grid grid-cols-1 md:grid-cols-2 gap-2">
+                                            <div>
+                                                <p><span class="font-semibold"> Degree:</span> {{data.degree}}</p>
+                                                <p><span class="font-semibold">Institute Name:</span> {{data.instituteName}}</p>
+                                                <p><span class="font-semibold">Passing Month:</span> {{data.passingMonth}}</p>
+                                                <p><span class="font-semibold">Passing Year:</span> {{data.passingYear}}</p>
+                                                <p><span class="font-semibold">Percentage:</span> {{data.percentage}}%</p>
+                                               
+                                            </div>
+                                        </div>
+                                    </div>
+                                   
+                                </div>
+                            </div>
+                            </mat-expansion-panel>
+                        </mat-accordion>
+
+                    </div>
+
+                 
+                
+                    
+               </div>
+        
+                          
+
+        </div>
+
+    </div>
+
+</div>

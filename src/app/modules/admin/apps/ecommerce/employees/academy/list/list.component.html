@@ -140,14 +140,14 @@
                         <div class="example-button-container">
                             <button class="rounded-full bg-gradient-to-r from-gray-100 to-gray-300 text-gray-600 
                             hover:text-gray-800 focus:outline-none focus:ring-2 focus:ring-gray-400 focus:ring-opacity-50 "
-                            mat-fab color="accent"  aria-label="Example icon button with a bookmark icon" (click)="Update_emp()">
+                            mat-fab color="accent"  aria-label="Example icon button with a bookmark icon" (click)="Update_emp(data.id)">
                                 <mat-icon svgIcon="heroicons_solid:pencil"></mat-icon>
                             </button>
                         </div>
                         <div class="example-button-container">
                             <button class="rounded-full bg-gradient-to-r from-gray-100 to-gray-300 text-gray-600 
                             hover:text-gray-800 focus:outline-none focus:ring-2 focus:ring-gray-400 focus:ring-opacity-50"
-                             mat-fab color="accent" aria-label="Example icon button with a bookmark icon">
+                             mat-fab color="accent" aria-label="Example icon button with a bookmark icon" (click)="View_emp(data.id)" >
                                 <mat-icon svgIcon="mat_solid:remove_red_eye"></mat-icon>
                             </button>
                         </div>

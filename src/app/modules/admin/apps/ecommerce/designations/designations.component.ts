@@ -28,7 +28,6 @@ export class DesignationsComponent implements OnInit {
   data: any;
   all_Branch: any[] = [];
   products: any[]=[];
- 
   unit: any;
   Click_Event_Sub:Subscription
   pageSize = 10; 

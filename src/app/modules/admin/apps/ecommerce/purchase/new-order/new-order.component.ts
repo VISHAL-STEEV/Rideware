@@ -18,22 +18,17 @@ export interface PeriodicElement {
   position: number;
   weight: number;
   symbol: string;
-  see : string;
-  daee : string;
-  hello : string;
+  Discount : string;
+  Tax : string;
+  Total : string;
 }
 
 const ELEMENT_DATA: PeriodicElement[] = [
-  {position: 1, name: 'Hydrogen', weight: 1.0079, symbol: 'H',see : 'hello',daee : 'string',hello : "string"},
-  {position: 2, name: 'Helium', weight: 4.0026, symbol: 'He',see : 'hei',daee : 'string',hello : "string"},
-  {position: 2, name: 'Helium', weight: 4.0026, symbol: 'He',see : 'hei',daee : 'string',hello : "string"},
-  {position: 2, name: 'Helium', weight: 4.0026, symbol: 'He',see : 'hei',daee : 'string',hello : "string"},
-  // {position: 2, name: 'Helium', weight: 4.0026, symbol: 'He',see : 'hei',daee : 'string',hello : "string"},
-  // {position: 2, name: 'Helium', weight: 4.0026, symbol: 'He',see : 'hei',daee : 'string',hello : "string"},
-  // {position: 2, name: 'Helium', weight: 4.0026, symbol: 'He',see : 'hei',daee : 'string',hello : "string"},
-  // {position: 2, name: 'Helium', weight: 4.0026, symbol: 'He',see : 'hei',daee : 'string',hello : "string"},
-  // {position: 2, name: 'Helium', weight: 4.0026, symbol: 'He',see : 'hei',daee : 'string',hello : "string"},
-  
+  {position: 1, name: 'Hydrogen', weight: 1.0079, symbol: 'H',Discount : 'hello',Tax : 'string',Total : "string"},
+  {position: 2, name: 'Helium', weight: 4.0026, symbol: 'He',Discount : 'hei',Tax : 'string',Total : "string"},
+  {position: 2, name: 'Helium', weight: 4.0026, symbol: 'He',Discount : 'hei',Tax : 'string',Total : "string"},
+  {position: 2, name: 'Helium', weight: 4.0026, symbol: 'He',Discount : 'hei',Tax : 'string',Total : "string"},
+
 ];
 
 
@@ -50,7 +45,7 @@ export class NewOrderComponent {
 
 
 
-  displayedColumns: string[] = ['position', 'name', 'weight', 'symbol'];
+  displayedColumns: string[] = ['position', 'name', 'weight', 'symbol','Discount','Tax','Total'];
   dataSource = ELEMENT_DATA;
 
   selected = 'option2';
