@@ -1,5 +1,5 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, signal } from '@angular/core';
 import { environment } from 'environments/environments/environment';
 import { map } from 'rxjs';
 
@@ -11,7 +11,7 @@ export class EmployeesServiceService {
   constructor(private _httpClient :HttpClient) { }
 
 
-
+  
 
   GetAllEmployees(){
 
@@ -167,6 +167,8 @@ export class EmployeesServiceService {
   }
 
   GetEmployeePersonalDetailById(id:any){
+
+
     const accessToken =localStorage.getItem('accessToken')
     const httpOptions = {
     headers: new HttpHeaders({
@@ -188,6 +190,30 @@ export class EmployeesServiceService {
 
   }
 
+
+
+
+
+RemoveEmployeeEducation(id:any){
+
+    const accessToken =localStorage.getItem('accessToken')
+    const httpOptions = {
+    headers: new HttpHeaders({
+    'Authorization': 'Bearer ' + accessToken
+    })
+    };
+    
+    const key = {
+      "id": id
+    }
+    return this._httpClient.post<any>(`${environment.apiURL}/EmployeeEducation/RemoveEmployeeEducation`,key, httpOptions ).pipe(
+          map((response) =>
+          {    
+                       return  response;
+          }), 
+      );
+
+}
 
     
 

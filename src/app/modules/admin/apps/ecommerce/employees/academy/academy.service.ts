@@ -1,5 +1,5 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, signal } from '@angular/core';
 import { environment } from 'environments/environments/environment';
 import {  map, Observable, of, Subject } from 'rxjs';
 
@@ -9,7 +9,7 @@ export class AcademyService
 
     private subject = new Subject<any>();
   
-
+    AddEmployeeEducationData = signal<any[]>([]);
 
 
     /**
@@ -22,7 +22,7 @@ export class AcademyService
 
 
 
-    AddEmployeeEducation(){
+    AddEmployeeEducation(id:any,data:any){
 
         const accessToken =localStorage.getItem('accessToken')
               const httpOptions = {
@@ -30,20 +30,32 @@ export class AcademyService
               'Authorization': 'Bearer ' + accessToken
               })
               };
+
+
+ 
               
               const key = {
-                "employeeId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-                "degree": "string",
-                "instituteName": "string",
-                "passingMonth": 0,
-                "passingYear": 0,
-                "percentage": 0
+                "employeeId": id,
+                "degree": data.NewDegree,
+                "instituteName": data.NewInstitute_Name,
+                "passingMonth": parseInt(data.NewqPassing_Monthe) ,
+                "passingYear":parseInt(data.NewPassing_Year) ,
+                "percentage": parseInt(data.NewPercentage)
               }
              
               return this._httpClient.post<any>(`${environment.apiURL}/EmployeeEducation/AddEmployeeEducation`,key, httpOptions ).pipe(
                     map((response) =>
-                    {    
+                    {       
+
+
+                         if(response.isValid === true){
+                          this.GetEmployeeEducations(id).subscribe(res=>{
+                                  this.AddEmployeeEducationData.update(oldData => [...oldData]);
+
+                          });
+                         }
                                  return  response;
+                                 
                     }), 
                 );
     
@@ -70,6 +82,8 @@ export class AcademyService
               return this._httpClient.post<any>(`${environment.apiURL}/EmployeeEducation/GetEmployeeEducations`,key, httpOptions ).pipe(
                     map((response) =>
                     {    
+                      this.AddEmployeeEducationData.set(response.data)
+                         
                                  return  response;
                     }), 
                 );
@@ -226,7 +240,6 @@ export class AcademyService
               }
           
 
-              console.log(key)
               
                                     
               return this._httpClient.post<any>(`${environment.apiURL}/EmployeeEducation/UpdateEmployeeEducation`,key, httpOptions ).pipe(
@@ -291,6 +304,9 @@ export class AcademyService
 
 
       }
+
+
+
   
       
 

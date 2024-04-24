@@ -41,6 +41,8 @@ throw new Error('Method not implemented.');
   isCompanyDisabled: boolean = false;
   isBranchDisabled: boolean = false;
   Click_EventSub:Subscription;
+
+  
   constructor(private _formBuilder: FormBuilder,private  Department_api : DepartmentServService){
 
     this.Click_EventSub =this.Department_api.getEvent().subscribe((res)=>{
@@ -87,7 +89,7 @@ Update__Product(units:any){
 
   if(units.isEditing === false){
     const data =this.Customers_data.value;
-    console.log(data)
+   
    this.Department_api.UpdateDepartment(data,units.id).subscribe((res)=>{
        console.log(res);
        this.Department_api.sentEvent()

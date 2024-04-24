@@ -1,4 +1,5 @@
 import { CdkScrollable } from '@angular/cdk/scrolling';
+import { CommonModule } from '@angular/common';
 import { DOCUMENT, NgClass, NgFor, NgIf } from '@angular/common';
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, Inject, OnDestroy, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
@@ -11,7 +12,7 @@ import { FuseFindByKeyPipe } from '@fuse/pipes/find-by-key/find-by-key.pipe';
 import { FuseMediaWatcherService } from '@fuse/services/media-watcher';
 import { AcademyService } from 'app/modules/admin/apps/ecommerce/employees/academy/academy.service';
 import { Category, Course } from 'app/modules/admin/apps/ecommerce/employees/academy/academy.types';
-import { Subject, Subscription, takeUntil } from 'rxjs';
+import { BehaviorSubject, Subject, Subscription, takeUntil } from 'rxjs';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {FormsModule,FormGroup,FormControl,ReactiveFormsModule,Validator, FormBuilder, Validators} from '@angular/forms';
 import {MatInputModule} from '@angular/material/input';
@@ -23,6 +24,10 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClient ,HttpEventType } from '@angular/common/http';
 import { DepartmentServService } from '../../../departments/department-serv.service';
 import { DesigServiceService } from '../../../designations/desig-service.service';
+import { fuseAnimations } from '@fuse/animations';
+import { EmployeesServiceService } from '../../employees-service.service';
+
+
 
 
 @Component({
@@ -31,8 +36,9 @@ import { DesigServiceService } from '../../../designations/desig-service.service
     encapsulation  : ViewEncapsulation.None,
     changeDetection: ChangeDetectionStrategy.OnPush,
     standalone     : true,
+    animations : fuseAnimations,
     imports        : [MatSidenavModule,MatInputModule,MatRadioModule,ReactiveFormsModule,
-                       RouterLink, MatIconModule,NgIf, NgClass,MatSelectModule,
+                       RouterLink, MatIconModule,NgIf, NgClass,MatSelectModule,CommonModule,
                       NgFor,MatButtonModule,MatProgressBarModule,CdkScrollable, MatDatepickerModule,
                       MatTabsModule, FuseFindByKeyPipe,FormsModule,MatFormFieldModule],
 })
@@ -53,14 +59,21 @@ export class AcademyDetailsComponent implements OnInit, OnDestroy
     Up_emp_Office:FormGroup;
     Up_emp_Personal:FormGroup;
     Up_emp_Bank:FormGroup;
+    AddNewEmpEduData:FormGroup;
     EmpEduData:FormGroup;
     employee_pic:string='';
     EMP_id:any;
-    EMP_Edu_detils:any[]=[];
+    EMP_Edu_detils:any;
     Department:any[]=[];
     Designations_data:any[]=[];
     Click_EventSub:Subscription;
-  
+    visible:boolean=false;
+    DeleteEduid:any;
+    EmpBankDetailsid:any;
+    EMPEdudetilsId:any;
+    EmpPersonalid:any;
+    EmpolyeeOfficialid:any;
+    new_education:boolean=false;
 
     /**
      * Constructor
@@ -68,9 +81,8 @@ export class AcademyDetailsComponent implements OnInit, OnDestroy
     constructor(
         @Inject(DOCUMENT) private _document: Document,
         private _academyService: AcademyService,
+        private _EmployeeeService: EmployeesServiceService,
         private _changeDetectorRef: ChangeDetectorRef,
-        private _elementRef: ElementRef,
-        private _fuseMediaWatcherService: FuseMediaWatcherService,
         private route :Router,
         private http: HttpClient,
         private _FormBuilder :FormBuilder,
@@ -80,10 +92,13 @@ export class AcademyDetailsComponent implements OnInit, OnDestroy
     )
     {
         this.Click_EventSub =this._academyService.getEvent().subscribe((res)=>{
-            this.GetEmployee_Educations();
-            
+            setTimeout(() => {
+                this.GetEmployee_Educations();
+            }, 200); 
         });
     }
+
+
 
     onFileSelected(event: any) {
         this.selectedFile = event.target.files[0];
@@ -127,6 +142,15 @@ export class AcademyDetailsComponent implements OnInit, OnDestroy
      this.GetEmployee_Educations();
      this.get_Department();
      this.get_Designations();
+     this. fetchDataFromAPI();
+  
+     this.AddNewEmpEduData =this._FormBuilder.group({
+        NewDegree:['',Validators.required],
+        NewInstitute_Name:['',Validators.required],
+        NewqPassing_Monthe:['',Validators.required],
+        NewPassing_Year:['',Validators.required],
+        NewPercentage:['',Validators.required], 
+    })
 
 this.course = {
     id: "123",
@@ -178,29 +202,7 @@ this.course = {
 };
 
 
-        // Subscribe to media changes
-        this._fuseMediaWatcherService.onMediaChange$
-            .pipe(takeUntil(this._unsubscribeAll))
-            .subscribe(({matchingAliases}) =>
-            {
-                // Set the drawerMode and drawerOpened
-                if ( matchingAliases.includes('lg') )
-                {
-                    this.drawerMode = 'side';
-                    this.drawerOpened = true;
-                }
-                else
-                {
-                    this.drawerMode = 'over';
-                    this.drawerOpened = false;
-                }
-
-                // Mark for check
-                this._changeDetectorRef.markForCheck();
-            });
-
-         
-          
+       
 
     }
 
@@ -314,7 +316,7 @@ this.course = {
 
         const formData:FormData =new FormData();
         formData.append('file',file,file.name);
-        console.log(formData)
+    
 
         this._academyService.UploadEmployeeProfilePhoto( this.EMP_id, formData).subscribe((res)=>{ 
             this.EMP_Edu_detils =res.data;
@@ -379,7 +381,7 @@ this.course = {
     
   
      
-    EmpEduDetails(){
+    EmpEduDetails(){    
         this.EmpEduData = this._FormBuilder.group({
             EMP_degree:['',Validators.required],
             EMP_instituteName:['',Validators.required],
@@ -391,42 +393,51 @@ this.course = {
  
 
 
-    AddEmployee_Education(){
-      this._academyService.AddEmployeeEducation().subscribe((res)=>{ 
-
-        console.log(res)
-      }) 
-    }
-
 
     GetEmployee_Educations(){
         this._academyService.GetEmployeeEducations( this.EMP_id).subscribe((res)=>{ 
-            this.EMP_Edu_detils =res.data;
-          console.log(res.data);
-
+            return res;
         }) 
+
+      
+    
+
       }
 
 
 
+// funtion for adding new education
 
+Add_new_eduCation(){
+    this.new_education  = !this.new_education
+ 
+    if(this.new_education=== false){
+              
+    this._academyService.AddEmployeeEducation(  this.EMP_id, this.AddNewEmpEduData.value ).subscribe((res)=>{ 
+        this.AddNewEmpEduData.reset()
+         return res;   
+   }) ;
+    }
+ 
+ 
+   }
 
       
     Add_Bank_details(){
         this._academyService.AddEmployeeBankDetail(this.EMP_id,this.Up_emp_Bank.value).subscribe((res)=>{ 
-          console.log(res);
+            return res;
         });
     }
 
     Add_Personal_details(){
         this._academyService.UpdateEmployeePersonalDetail(this.EMP_id,this.Up_emp_Personal.value).subscribe((res)=>{ 
-            console.log(res);
+            return res;
           });
     }
 
     Add_Office_details(){
         this._academyService.UpdateEmployee(this.EMP_id,this.Up_emp_Office.value).subscribe((res)=>{ 
-            console.log(res);
+            return res;
           });
     }
 
@@ -435,7 +446,7 @@ this.course = {
 
     get_Department(){
         this.Department_api.GetAllDepartments().subscribe((res)=>{
-           console.log(res.data.result)
+          
              this.Department = res.data.result;
         })
        }
@@ -444,7 +455,7 @@ this.course = {
        
 get_Designations(){
     this.Designations_api.GetAllDesignations().subscribe((res)=>{
-       console.log(res.data.result)
+      
          this.Designations_data = res.data.result
     })
    }
@@ -456,28 +467,47 @@ get_Designations(){
 
 
 DeteteEduData(id:any){
-  console.log(id);
-  console.log(this.EmpEduData.value);
+ 
+  this.visible=! this.visible;
+  this.DeleteEduid =id;
+  
 }
 
+deleteItem(){
+    this.visible=! this.visible
+}
 
+deleteRduBackend(){
+    this.visible=! this.visible
+   this._EmployeeeService.RemoveEmployeeEducation(this.DeleteEduid).subscribe((res:any)=>{
+    this. GetEmployee_Educations();
+   
+   })
+}
+
+togglePopUp() {
+    this.visible = !this.visible;
+  }
 
 // function for  UPDATE education data 
 
 edit_emp(data:any){
-    console.log(data.isEditing);
+   
     data.isEditing =!data.isEditing;
 
     if(data.isEditing === false){
-        
+        console.log(data.isEditing);
+ 
              
         this._academyService.UpdateEmployeeEducation(data.id,this.EmpEduData.value).subscribe((res)=>{ 
-            this._academyService.sentEvent();
-            return res
+                    this._academyService.sentEvent();
+                    console.log(res);
         });
         
 
     }else{
+        console.log(data.isEditing);
+
         this.EmpEduData.controls['EMP_degree'].setValue(data.degree);
         this.EmpEduData.controls['EMP_instituteName'].setValue(data.instituteName);
         this.EmpEduData.controls['EMP_passingMonth'].setValue(data.passingMonth);
@@ -493,9 +523,101 @@ edit_emp(data:any){
         const formData = new FormData();
         formData.append('Files',file);
 
-        console.log(formData)
+       
 
     }
-  }  
+  } 
+  
+  
+
+
+
+
+
+
+  
+
+
+
+
+   fetchDataFromAPI(){
+                this._EmployeeeService.GetEmployeeById(this.EMP_id ).subscribe((res)=>{
+
+                    if(res.data){
+                        this.Up_emp_Office.controls['First_Name'].setValue(res.data.firstName);
+                        this.Up_emp_Office.controls['Last_Name'].setValue(res.data.lastName);
+                        this.Up_emp_Office.controls['Office_Cont_no'].setValue(res.data.officeContactNo);
+                        this.Up_emp_Office.controls['Department'].setValue(res.data.departmentId);
+                        this.Up_emp_Office.controls['Reporting_To'].setValue(res.data.reportingToName);
+                        this.Up_emp_Office.controls['Resignation_On'].setValue(res.data.resignationOn);
+                        this.Up_emp_Office.controls['Middle_Name'].setValue(res.data.firstName);
+                        this.Up_emp_Office.controls['Office_Email_Id'].setValue(res.data.officeEmailId);
+                        this.Up_emp_Office.controls['Joining_On'].setValue(res.data.joiningOn);
+                        this.Up_emp_Office.controls['Designation'].setValue(res.data.designationId);
+                        this.Up_emp_Office.controls['Confirmation_On'].setValue(res.data.confirmationOn);
+                        this.Up_emp_Office.controls['Relieving_On'].setValue(res.data.relievingOn);
+                        this.EmpolyeeOfficialid = [res.data] ;
+
+                        console.log(res.data)
+                    }
+  
+                    
+                    
+
+                   
+            });
+
+
+            this._EmployeeeService.GetEmployeePersonalDetailById( this.EMP_id).subscribe((res)=>{ 
+                this.EmpPersonalid= res.data;
+                if(res.data){
+                    this.Up_emp_Personal.controls['Birth_Date'].setValue(res.data.birthDate);
+                    this.Up_emp_Personal.controls['Blood_Group'].setValue(res.data.bloodGroup);
+                    this.Up_emp_Personal.controls['Personal_Email_Id'].setValue(res.data.personalEmailId);
+                    this.Up_emp_Personal.controls['Other_Contact_No'].setValue(res.data.otherContactNo);
+                    this.Up_emp_Personal.controls['Gender'].setValue(res.data.genderText);
+                    this.Up_emp_Personal.controls['Marital_Status'].setValue(res.data.maritalStatusText);
+                    this.Up_emp_Personal.controls['Personal_Mobile_No'].setValue(res.data.personalMobileNo);
+                    this.Up_emp_Personal.controls['Parmenant_Address'].setValue(res.data.parmenantAddress);
+                    this.Up_emp_Personal.controls['Current_Address'].setValue(res.data.currentAddress);
+
+
+                }
+                
+                   
+                
+            });
+
+
+            this._EmployeeeService.GetEmployeeBankDetail(this.EMP_id ).subscribe((res)=>{
+
+                if(res.data){
+                    this.Up_emp_Bank.controls['Bank_Name'].setValue(res.data.bankName);
+                    this.Up_emp_Bank.controls['Account_Number'].setValue(res.data.accountNumber);
+                    this.Up_emp_Bank.controls['IFSC_Code'].setValue(res.data.ifscCode);
+                    this.Up_emp_Bank.controls['PAN_Number'].setValue(res.data.panNumber);
+                    this.Up_emp_Bank.controls['PF_Number'].setValue(res.data.pfNumber);
+                    this.Up_emp_Bank.controls['UAN_Number'].setValue(res.data.uanNumber);
+                    this.Up_emp_Bank.controls['Branch_Address'].setValue(res.data.branchAddress);
+
+                    this.EmpBankDetailsid =  res.data;  
+                }
+
+            
+
+               
+               
+            });
+   }
+
+
+
+
+
+
+
+
+
+
 
 }

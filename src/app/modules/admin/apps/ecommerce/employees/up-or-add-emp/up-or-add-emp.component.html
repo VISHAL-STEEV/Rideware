@@ -27,6 +27,18 @@
   flex: 1;
 }
 
+
+.form-group {
+  margin-bottom: 1rem;
+}
+
+@media (max-width: 768px) {
+  .grid-cols-1 {
+    grid-template-columns: repeat(1, minmax(0, 1fr));
+  }
+}
+
+
 @media (max-width: 768px) {
   .employee-container {
     flex-direction: column;
@@ -97,36 +109,40 @@
                                 </mat-panel-title>
                                
                             </mat-expansion-panel-header>
-                            <div class="employee-details mt-4" *ngFor="let data of EmpolyeeData1 ">
+                            <div class="employee-details mt-4" *ngIf="EmpolyeeData1 && EmpolyeeData1.length > 0">
                                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                    <div class="border rounded-md p-4">
-                                  
-                                        <div class="grid grid-cols-1 md:grid-cols-2 gap-2">
-                                            <div>
-                                                <p><span class="font-semibold">Office Email ID:</span> {{data.officeEmailId}}</p>
-                                                <p><span class="font-semibold">Office Contact No:</span> {{data.officeContactNo}}</p>
-                                                <p><span class="font-semibold">Department:</span> {{data.departmentName}}</p>
-                                                <p><span class="font-semibold">Reporting To:</span> {{data.reportingToName}}</p>
-                                                <p><span class="font-semibold">Designation:</span> {{data.designationName}}</p>
-                                               
-                                            </div>
+                                  <div class="border rounded-md p-4">
+                                    <h2 class="text-lg font-semibold mb-4">Personal Information</h2>
+                                    <div class="grid grid-cols-1 md:grid-cols-2 gap-2">
+                                      <div *ngFor="let data of EmpolyeeData1" class="mb-4">
+                                        <div *ngIf="data" class="form-group">
+                                          <label class="font-semibold">{{ data.firstName }} {{ data.lastName }}</label>
+                                          <p><span class="font-semibold">Middle Name:</span> {{ data.middleName }}</p>
+                                          <p><span class="font-semibold">Relieving Date:</span> {{ data.relievingOn }}</p>
+                                          <p><span class="font-semibold">Resignation Date:</span> {{ data.resignationOn }}</p>
+                                          <p><span class="font-semibold">Joining Date:</span> {{ data.joiningOn }}</p>
+                                          <p><span class="font-semibold">Confirmation Date:</span> {{ data.confirmationOn }}</p>
                                         </div>
+                                      </div>
                                     </div>
-                                    <div class="border rounded-md p-4">
-                                        
-                                        <div>
-                                            <p><span class="font-semibold">First Name:</span> {{data.firstName}}</p>
-                                            <p><span class="font-semibold">Middle Name:</span> {{data.middleName}}</p>
-                                            <p><span class="font-semibold">Last Name:</span> {{data.lastName}}</p>
-                                            <p><span class="font-semibold">Relieving Date:</span> {{data.relievingOn}}</p>
-                                            <p><span class="font-semibold">Resignation Date:</span> {{data.resignationOn}}</p>
-                                            <p><span class="font-semibold">Joining Date:</span> {{data.joiningOn}}</p>
-                                            <p><span class="font-semibold">Confirmation Date:</span> {{data.confirmationOn}}</p>
+                                  </div>
+                                  <div class="border rounded-md p-4">
+                                    <h2 class="text-lg font-semibold mb-4">Work Information</h2>
+                                    <div class="grid grid-cols-1 md:grid-cols-2 gap-2">
+                                      <div *ngFor="let data of EmpolyeeData1" class="mb-4">
+                                        <div *ngIf="data" class="form-group">
+                                          <label class="font-semibold">{{ data.officeEmailId }}</label>
+                                          <p><span class="font-semibold">Office Contact No:</span> {{ data.officeContactNo }}</p>
+                                          <p><span class="font-semibold">Department:</span> {{ data.departmentName }}</p>
+                                          <p><span class="font-semibold">Reporting To:</span> {{ data.reportingToName }}</p>
+                                          <p><span class="font-semibold">Designation:</span> {{ data.designationName }}</p>
                                         </div>
+                                      </div>
                                     </div>
+                                  </div>
                                 </div>
-                            </div>
-                            
+                              </div>
+                              
                             </mat-expansion-panel>
                         </mat-accordion>
                         <!-- Personal -->
@@ -138,12 +154,12 @@
                                 </mat-panel-title>
                              
                             </mat-expansion-panel-header>
-                            <div class="employee-details mt-4" *ngFor="let data of EmpPersonal ">
-                                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div class="employee-details mt-4"  *ngIf="EmpPersonal && EmpPersonal.length > 0">
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-4" *ngFor="let data of EmpPersonal ">
                                     <div class="border rounded-md p-4">
                                       
                                         <div class="grid grid-cols-1 md:grid-cols-2 gap-2">
-                                            <div>
+                                            <div  *ngIf="data">
                                                 <p><span class="font-semibold">Marital Status:</span> {{data.maritalStatusText}}</p>
                                                 <p><span class="font-semibold">Personal Email Id:</span> {{data.personalEmailId}}</p>
                                                 <p><span class="font-semibold">Blood Group:</span> {{data.bloodGroup}}</p>
@@ -155,7 +171,7 @@
                                     </div>
                                     <div class="border rounded-md p-4">
                                         
-                                        <div>
+                                        <div *ngIf="data">
                                             <p><span class="font-semibold">Other Contact No:</span> {{data.designationName}}</p>
                                             <p><span class="font-semibold">Parmenant Address:</span> {{data.parmenantAddress}}</p>
                                             <p><span class="font-semibold">Current Address:</span> {{data.currentAddress}}</p>
@@ -180,21 +196,18 @@
                             </mat-expansion-panel-header>
                             <div class="employee-details mt-4" *ngIf="EmpBankDetails && EmpBankDetails.length > 0">
                                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4" *ngFor="let item of EmpBankDetails">
-                                    <div class="border rounded-md p-4" >
-                                      
+                                    <div class="border rounded-md p-4">
                                         <div class="grid grid-cols-1 md:grid-cols-2 gap-2">
-                                            <div>
-                                                <p><span class="font-semibold">Bank Name:</span> {{item.accountNumber}}</p>
+                                            <div *ngIf="item">
+                                                <p><span class="font-semibold">Bank Name:</span> {{item.bankName}}</p>
                                                 <p><span class="font-semibold">Account Number:</span> {{item.accountNumber}}</p>
                                                 <p><span class="font-semibold">IFSC Code:</span> {{item.ifscCode}}</p>
-                                                <p><span class="font-semibold"> Branch Address:</span> {{item.branchAddress}}</p>
-                                               
+                                                <p><span class="font-semibold">Branch Address:</span> {{item.branchAddress}}</p>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="border rounded-md p-4">
-                                        
-                                        <div>
+                                        <div *ngIf="item">
                                             <p><span class="font-semibold">PAN Number:</span> {{item.panNumber}}</p>
                                             <p><span class="font-semibold">PF Number:</span> {{item.pfNumber}}</p>
                                             <p><span class="font-semibold">UAN Number:</span> {{item.uanNumber}}</p>
@@ -202,6 +215,7 @@
                                     </div>
                                 </div>
                             </div>
+                            
                             </mat-expansion-panel>
                         </mat-accordion>
 
@@ -227,12 +241,12 @@
                                 Educations
                                 </mat-panel-title>
                             </mat-expansion-panel-header>
-                            <div class="employee-details mt-4">
+                            <div class="employee-details mt-4" *ngIf="EMPEdudetils && EMPEdudetils.length > 0">
                                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4" *ngFor="let data of EMPEdudetils">
                                     <div class="border rounded-md p-4 flex flex-col gap-2">
                                       
                                         <div class="grid grid-cols-1 md:grid-cols-2 gap-2">
-                                            <div>
+                                            <div *ngIf="data">
                                                 <p><span class="font-semibold"> Degree:</span> {{data.degree}}</p>
                                                 <p><span class="font-semibold">Institute Name:</span> {{data.instituteName}}</p>
                                                 <p><span class="font-semibold">Passing Month:</span> {{data.passingMonth}}</p>

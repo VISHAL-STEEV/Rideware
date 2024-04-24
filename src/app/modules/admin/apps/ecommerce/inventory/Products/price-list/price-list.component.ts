@@ -11,12 +11,15 @@ import { MatInputModule } from '@angular/material/input';
 import { SearchpipePipe } from "../../../../../../../pipe/searchpipe.pipe";
 
 
+
+
 @Component({
     selector: 'app-price-list',
     standalone: true,
     templateUrl: './price-list.component.html',
     styleUrl: './price-list.component.scss',
-    imports: [CommonModule, MatIconModule, MatButtonModule, MatInputModule, MatFormFieldModule, FormsModule, SearchpipePipe]
+    imports: [CommonModule, MatIconModule, MatButtonModule,
+       MatInputModule, MatFormFieldModule, FormsModule, SearchpipePipe]
 })
 export class PriceListComponent implements OnInit {
   Search_CateGory_data: string;

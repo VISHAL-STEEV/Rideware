@@ -65,7 +65,7 @@ getEmpBank(){
   console.log(this.EMP_id )
   this._empServiceID.GetEmployeeBankDetail(this.EMP_id ).subscribe((res)=>{
        this.EmpBankDetails =  [res.data] ;
-       console.log(res.data)
+     
        
   })
  }
@@ -74,8 +74,7 @@ getEmpBank(){
  GetEmpEducation(){
   this._academyService.GetEmployeeEducations( this.EMP_id).subscribe((res)=>{ 
     this.EMPEdudetils = res.data;
-       console.log(res.data)
-
+      
 }) 
  }
 
